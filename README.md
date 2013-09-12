@@ -70,7 +70,7 @@ In order to use the script, you need to create a file called `PumpTweet.ini` tha
     recent = 
     published = 
 
-All of the values in `[pump]` and `[twitter]` must be filled in, but `[history]` can be left blank.
+All of the values in `[pump]` and `[twitter]` must be filled in, but `[history]` can be left blank.  If you fail to fill in the top two sections, you'll get some kind of error when running the script.
 
 Running the script
 ==================

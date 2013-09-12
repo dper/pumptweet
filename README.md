@@ -109,6 +109,6 @@ Cron and rate limits
 ====================
 For most users, there is no worry, but if you tend to write many notes in a short amount of time, cross posting can be somewhat delicate.
 
-Twitter has a rate limit.  This script is rather conservative and only posts up to three tweets at a time.  That means if you have written five Pump.io notes since the last time you call this program, the most recent three will become tweets and the oldest two will be entirely ignored.
+Twitter has a rate limit.  This script is rather conservative and only posts up to three tweets at a time.  That means if you have written five Pump.io notes since the last time you called this program, the most recent three will become tweets and the oldest two will be entirely ignored.
 
 If you find that you write many notes and they're being skipped, you can change the code in `PumpTweet.py` and post more than three at a time.  But don't raise the value too high, or you might hit the Twitter rate limit, start looking spammy to your Twitter followers, or both.  A better approach might be a more frequent cron job.

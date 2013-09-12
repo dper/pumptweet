@@ -9,8 +9,8 @@ pump_me = ptp.get_pump_me()
 twitter_api = ptp.get_twitter_api()
 
 # Returns recent outbox activities.
-def get_recent_outbox_activities(count):
-	print 'Looking at recent pump.io outbox activity...'
+def get_new_activities(count):
+	print 'Looking at pump.io outbox activity...'
 	notes = []
 
 	#TODO This needs to only grab stuff since a certain ID.
@@ -51,10 +51,16 @@ def make_tweet(note):
 def make_tweets(count):
 	print 'Converting posts to tweets...'
 	tweets = []
-	notes = get_recent_outbox_activities(2 * count)
+	notes = get_new_activities(2 * count)
 	for note in notes[:count]:
 		tweets.append(make_tweet(note))
 	return tweets
+
+# Prints a list of tweets.
+def print_tweets(tweets):
+	print 'Printing tweets...'
+	for tweet in tweets:
+		print '> ' + tweet
 
 # Posts a list of tweets.
 def post_tweets(tweets):
@@ -67,9 +73,11 @@ def post_tweets(tweets):
 def update_recent():
 	print 'Updating history...'
 	activity = pump_me.outbox.major[0]
-	activity_id = activity.id
-	ptp.update_recent(activity_id)
+	latest = activity.id
+	published = activity.published
+	ptp.update_recent(latest, published)
 
-tweets = make_tweets(4)
+tweets = make_tweets(1)
+print_tweets(tweets)
 #post_tweets(tweets)
 update_recent()

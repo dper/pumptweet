@@ -1,4 +1,5 @@
 from pypump import PyPump
+from dateutil.parser import parse
 from ConfigParser import SafeConfigParser
 import twitter
 import os.path
@@ -22,6 +23,9 @@ class PumpTweetParser:
 		parser.read(self.filename)
 		self._parser = parser
 		self._recent = parser.get('history', 'recent')
+	
+		#TODO Convert this.	
+		datetimeS = parser.get('history', 'published')
 
 	# Logs in to the pump.io server.
 	def pump_login(self):
@@ -32,7 +36,14 @@ class PumpTweetParser:
 		secret = self._parser.get('pump', 'secret')
 		token = self._parser.get('pump', 'token')
 		token_secret = self._parser.get('pump', 'token_secret')
-		pump = PyPump(username, key=key, secret=secret, token=token, token_secret=token_secret)
+		pump = PyPump(
+			username,
+			key=key,
+			secret=secret,
+			token=token,
+			token_secret=token_secret
+		)
+
 		me = pump.Person(username)
 		
 		self._username = username
@@ -62,8 +73,9 @@ class PumpTweetParser:
 
 	# Writes the latest update pump.io ID in the ini file.
 	# Be careful when changing this.  It rewrites the ini file.
-	def update_recent(self, latest):
+	def update_recent(self, latest, published):
 		self._parser.set('history', 'recent', latest)
+		self._parser.set('history', 'published', str(published))
 
 		with open(self.filename, 'wb') as inifile:
 			self._parser.write(inifile)

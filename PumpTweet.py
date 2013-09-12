@@ -11,19 +11,29 @@ twitter_api = ptp.get_twitter_api()
 # Returns recent outbox activities.
 def get_new_activities(count):
 	print 'Looking at pump.io outbox activity...'
-	notes = []
-
-	#TODO This needs to only grab stuff since a certain ID.
-	# Waiting on https://github.com/xray7224/PyPump/issues/67
-	# ptp.get_recent stores the ID last used.
+	
+	# Some of this can be replaced by 'since' if later implemented by PyPump.
 	published = ptp.get_published()
 	recent = ptp.get_recent()
 	outbox = pump_me.outbox
+
+	# Users with a lot of non-note activity might raise this.
+	count = 20
+
+	# The maximum number of notes to post at a time.
+	# Posting too frequently might lead to errors on Twitter.
+	# If this number is too small, consider a more frequent cronjob.
+	allowable_posts = 3
+
+	notes = []
 
 	for activity in outbox.major[:count]:
 		# Stop looking at the outbox upon finding old activity.
 		if recent == activity.id: break
 		if published >= activity.published: break
+
+		# Only post several notes. Others are forgotten.
+		if len(notes) >= allowable_posts: break
 
 		obj = activity.obj
 

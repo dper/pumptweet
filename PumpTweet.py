@@ -16,11 +16,18 @@ def get_new_activities(count):
 	#TODO This needs to only grab stuff since a certain ID.
 	# Waiting on https://github.com/xray7224/PyPump/issues/67
 	# ptp.get_recent stores the ID last used.
-	print 'Published: ' + str(ptp.get_published())
-
+	published = ptp.get_published()
+	recent = ptp.get_recent()
 	outbox = pump_me.outbox
+
 	for activity in outbox.major[:count]:
+		# Stop looking at the outbox upon finding old activity.
+		if recent == activity.id: break
+		if published >= activity.published: break
+
 		obj = activity.obj
+
+		# Only post notes to Twitter.
 		if obj.objectType == 'note' and obj.deleted == False:
 			notes.append(obj)
 	return notes

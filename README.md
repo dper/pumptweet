@@ -79,7 +79,7 @@ To run the script, just call it.  If you're missing any dependencies (like the o
 
     $ python PumpTweet.py
 
-If everything is working correctly, output should look like the following.  In this example, there's one new note and therefore one new tweet.
+If everything is working correctly, output should look like the following.  In this example, there's one new note and therefore one new tweet which is posted to Twitter.
 
     Reading the config file...
     Logging into the pump.io server...
@@ -93,7 +93,7 @@ If everything is working correctly, output should look like the following.  In t
     Posting to Twitter...
     Updating history...
 
-If you run the script a second time, it looks to see if there is anything new since last time it ran.  In the below example, it looks at one post and stops, because that post isn't any newer than what the script handled last time around.
+If you run the script a second time, it looks to see if there is anything new since last time it ran.  In the below example, it looks at one post and stops, because that post isn't any newer than what the script handled last time around.  Nothing is posted to Twitter.
 
     Reading the config file...
     Logging into the pump.io server...
@@ -104,3 +104,11 @@ If you run the script a second time, it looks to see if there is anything new si
     Printing tweets...
     Posting to Twitter...
     Updating history...
+
+Cron and rate limits
+====================
+For most users, there is no worry, but if you tend to write many notes in a short amount of time, cross posting can be somewhat delicate.
+
+Twitter has a rate limit.  This script is rather conservative and only posts up to three tweets at a time.  That means if you have written five Pump.io notes since the last time you call this program, the most recent three will become tweets and the oldest two will be entirely ignored.
+
+If you find that you write many notes and they're being skipped, you can change the code in `PumpTweet.py` and post more than three at a time.  But don't raise the value too high, or you might hit the Twitter rate limit, start looking spammy to your Twitter followers, or both.  A better approach might be a more frequent cron job.

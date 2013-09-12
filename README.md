@@ -12,7 +12,7 @@ On Pump.io (<http://pump.io/>), there are many different kinds of activities.  H
 
 Other Pump.io activities (such as comments, likes, dislikes, and following new people) are excluded from here, because it's not obvious at face value what, if anything, among them would be of interest to a reader on Twitter.
 
-This program is designed to be run as a cron job on a regular basis (for example, every 30 or 60 minutes).
+This program is designed to be run as a cron job on a regular basis (for example, 60 minutes or less).  The more frequent the cron job, the more up to date your cross posts are.
 
 There are other programs that do similar things (for example, <http://brdcst.it/>).  If you enjoy using them, by all means continue!  On the other hand, if this script is more to your needs, wonderful.  If you browse the source code, you'll notice that (a) it's really short, because all the hard work was done by the wonderful people who wrote the dependencies, and (b) it's simple, so you can make changes if you like.
 

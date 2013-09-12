@@ -48,7 +48,7 @@ def get_new_activities():
 def make_tweet(note):
 	max_length = 140
 
-	opener = 'Microca.st: '
+	opener = ''
 	closer = '... '
 
 	private_url = note.id

@@ -1,7 +1,12 @@
 PumpTweet
 =========
 
-A Python script that cross posts from a Pump.io server to Twitter.  On Pump.io, there are many different kinds of activities.  Here, we only look for *notes*, which are essentially regular blog entries.  We find notes on Pump.io, shorten them, make a URL to the original note (very useful if it's a long note), and post the short version as a tweet on Twitter.
+A Python script that cross posts from a Pump.io server to Twitter.
+
+Overview
+========
+
+On Pump.io, there are many different kinds of activities.  Here, we only look for *notes*, which are essentially regular blog entries.  We find notes on Pump.io, shorten them, make a URL to the original note (very useful if it's a long note), and post the short version as a tweet on Twitter.
 
 Other Pump.io activities (such as comments, likes, dislikes, and following new people) are excluded from here, because it's not obvious at face value what, if anything, among them would be of interest to a reader on Twitter.
 

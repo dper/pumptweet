@@ -24,8 +24,9 @@ class PumpTweetParser:
 		self._parser = parser
 		self._recent = parser.get('history', 'recent')
 	
-		#TODO Convert this.	
-		datetimeS = parser.get('history', 'published')
+		# Converts the date to a usable form.
+		s = parser.get('history', 'published')
+		self._published = parse(s)
 
 	# Logs in to the pump.io server.
 	def pump_login(self):
@@ -80,9 +81,13 @@ class PumpTweetParser:
 		with open(self.filename, 'wb') as inifile:
 			self._parser.write(inifile)
 
-	# Returns the update ID in the ini file.
+	# Returns the ID for the last update (from the ini file).
 	def get_recent(self):
 		return self._recent
+
+	# Returns the datetime of the last update (from the ini file).
+	def get_published(self):
+		return self._published
 
 	# Returns the pump.io user object.
 	def get_pump_me(self):

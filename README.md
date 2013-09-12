@@ -1,7 +1,18 @@
 PumpTweet
 =========
 
-A Python script that cross posts from a pump.io server to Twitter.
+A Python script that cross posts from a Pump.io server to Twitter.  On Pump.io, there are many different kinds of activities.  Here, we only look for *notes*, which are essentially regular blog entries.  We find notes on Pump.io, shorten them, make a URL to the original note (very useful if it's a long note), and post the short version as a tweet on Twitter.
+
+Other Pump.io activities (such as comments, likes, dislikes, and following new people) are excluded from here, because it's not obvious at face value what, if anything, among them would be of interest to a reader on Twitter.
+
+This program is designed to be run as a cron job on a regular basis (for example, every 30 or 60 minutes).
+
+There are other programs that do similar things (for example, <http://brdcst.it/>).  If you enjoy using them, by all means continue!  On the other hand, if this script is more to your needs, wonderful.  If you browse the source code, you'll notice that (a) it's really short, because all the hard work was done by the wonderful people who wrote the dependencies, and (b) it's simple, so you can make changes if you like.
+
+Issues
+======
+
+If you see any issues, obvious but missing features, or problems with the documentation, feel free to open an issue at <https://github.com/dper/PumpTweet/issues>.
 
 Installation
 ============

@@ -1,2 +1,6 @@
 *.pyc
 *.ini
+bin/
+include/
+lib/
+local/

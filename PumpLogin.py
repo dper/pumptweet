@@ -1,6 +1,7 @@
 from pypump import PyPump
 from ConfigParser import SafeConfigParser
 import twitter
+import os.path
 
 class PumpTweetParser:
 	"""Parses the ini file and provides the results on demand."""
@@ -10,6 +11,13 @@ class PumpTweetParser:
 
 	# Parses the ini file.
 	def parse_ini(self):
+		print 'Reading the config file...'
+
+		# This verifies that the ini file exists.
+		if not os.path.isfile(self.filename):
+			message = self.filename + ' not found.'
+			raise Exception(message)
+
 		parser = SafeConfigParser()
 		parser.read(self.filename)
 		self._parser = parser

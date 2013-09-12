@@ -9,7 +9,7 @@ pump_me = ptp.get_pump_me()
 twitter_api = ptp.get_twitter_api()
 
 # Returns recent outbox activities.
-def get_new_activities(count):
+def get_new_activities():
 	print 'Looking at pump.io outbox activity...'
 	
 	# Some of this can be replaced by 'since' if later implemented by PyPump.
@@ -28,6 +28,8 @@ def get_new_activities(count):
 	notes = []
 
 	for activity in outbox.major[:count]:
+		print '> ' + activity.obj.objectType + ' (' + str(activity.published) + ')'
+
 		# Stop looking at the outbox upon finding old activity.
 		if recent == activity.id: break
 		if published >= activity.published: break
@@ -53,7 +55,7 @@ def make_tweet(note):
 	public_url = private_url.replace('/api/note/', '/dper/note/')
 	short_url = shorten(public_url)
 
-	remaining_length = max_length - len(opener) - len(short_url) - len(closer) - 2
+	remaining_length = max_length - len(opener) - len(short_url) - len(closer) - 3
 	
 	content = note.content[3:]		# Strip leading characters.
 	content = content.replace('&#39;', "'")	# Replace HTML apostrophes.
@@ -66,11 +68,11 @@ def make_tweet(note):
 	return tweet
 
 # Converts posts to tweets.
-def make_tweets(count):
+def make_tweets():
 	print 'Converting posts to tweets...'
 	tweets = []
-	notes = get_new_activities(2 * count)
-	for note in notes[:count]:
+	notes = get_new_activities()
+	for note in notes:
 		tweets.append(make_tweet(note))
 	return tweets
 
@@ -84,7 +86,6 @@ def print_tweets(tweets):
 def post_tweets(tweets):
 	print 'Posting to Twitter...'
 	for tweet in tweets:
-		print len(tweet)
 		twitter_api.PostUpdate(tweet)
 
 # Updates the ini file with the most recent entry.
@@ -95,7 +96,7 @@ def update_recent():
 	published = activity.published
 	ptp.update_recent(latest, published)
 
-tweets = make_tweets(1)
+tweets = make_tweets()
 print_tweets(tweets)
-#post_tweets(tweets)
+post_tweets(tweets)
 update_recent()

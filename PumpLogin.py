@@ -28,9 +28,9 @@ class PumpTweetParser:
 		s = parser.get('history', 'published')
 		self._published = parse(s)
 
-	# Logs in to the pump.io server.
+	# Logs in to the Pump server.
 	def pump_login(self):
-		print 'Logging into the pump.io server...'
+		print 'Logging into the Pump server...'
 
 		username = self._parser.get('pump', 'username')
 		key = self._parser.get('pump', 'key')
@@ -72,7 +72,7 @@ class PumpTweetParser:
 		self.pump_login()
 		self.twitter_login()
 
-	# Writes the latest update pump.io ID in the ini file.
+	# Writes the latest update Pump ID in the ini file.
 	# Be careful when changing this.  It rewrites the ini file.
 	def update_recent(self, latest, published):
 		self._parser.set('history', 'recent', latest)
@@ -89,7 +89,7 @@ class PumpTweetParser:
 	def get_published(self):
 		return self._published
 
-	# Returns the pump.io user object.
+	# Returns the Pump user object.
 	def get_pump_me(self):
 		return self._me
 

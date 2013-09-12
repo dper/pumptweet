@@ -10,7 +10,7 @@ twitter_api = ptp.get_twitter_api()
 
 # Returns recent outbox activities.
 def get_new_activities():
-	print 'Looking at pump.io outbox activity...'
+	print 'Looking at Pump outbox activity...'
 	
 	# Some of this can be replaced by 'since' if later implemented by PyPump.
 	published = ptp.get_published()
@@ -68,10 +68,8 @@ def make_tweet(note):
 	return tweet
 
 # Converts posts to tweets.
-def make_tweets():
-	print 'Converting posts to tweets...'
+def make_tweets(notes):
 	tweets = []
-	notes = get_new_activities()
 	for note in notes:
 		tweets.append(make_tweet(note))
 	return tweets
@@ -85,6 +83,7 @@ def print_tweets(tweets):
 # Posts a list of tweets.
 def post_tweets(tweets):
 	print 'Posting to Twitter...'
+	print 'New tweet count: ' + str(len(tweets)) + '.'
 	for tweet in tweets:
 		twitter_api.PostUpdate(tweet)
 
@@ -96,7 +95,12 @@ def update_recent():
 	published = activity.published
 	ptp.update_recent(latest, published)
 
-tweets = make_tweets()
-print_tweets(tweets)
-post_tweets(tweets)
-update_recent()
+# Pulls from Pump and pushes to Twitter.
+def pull_and_push():
+	notes = get_new_activities()
+	tweets = make_tweets(notes)
+	print_tweets(tweets)
+	post_tweets(tweets)
+	update_recent()
+
+pull_and_push()

@@ -31,11 +31,11 @@ def get_new_activities():
 		print '> ' + activity.obj.objectType + ' (' + str(activity.published) + ')'
 
 		# Stop looking at the outbox upon finding old activity.
-		if recent == activity.id: break
-		if published >= activity.published: break
+		#if recent == activity.id: break
+		#if published >= activity.published: break
 
 		# Only post several notes. Others are forgotten.
-		if len(notes) >= allowable_posts: break
+		#if len(notes) >= allowable_posts: break
 
 		obj = activity.obj
 
@@ -100,7 +100,7 @@ def pull_and_push():
 	notes = get_new_activities()
 	tweets = make_tweets(notes)
 	print_tweets(tweets)
-	post_tweets(tweets)
+	#post_tweets(tweets)
 	update_recent()
 
 pull_and_push()

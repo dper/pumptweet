@@ -1,3 +1,5 @@
+# coding=utf-8
+
 from PumpLogin import PumpTweetParser
 from pypump import PyPump
 from MLStripper import strip_tags
@@ -31,11 +33,11 @@ def get_new_activities():
 		print '> ' + activity.obj.objectType + ' (' + str(activity.published) + ')'
 
 		# Stop looking at the outbox upon finding old activity.
-		#if recent == activity.id: break
-		#if published >= activity.published: break
+		if recent == activity.id: break
+		if published >= activity.published: break
 
 		# Only post several notes. Others are forgotten.
-		#if len(notes) >= allowable_posts: break
+		if len(notes) >= allowable_posts: break
 
 		obj = activity.obj
 
@@ -46,25 +48,25 @@ def get_new_activities():
 
 # Make the text for a tweet that includes the contest of the note.
 def make_tweet(note):
-	max_length = 140
-
-	opener = ''
-	closer = '... '
-
+	max_length = 139
 	private_url = note.id
 	public_url = private_url.replace('/api/note/', '/dper/note/')
 	short_url = shorten(public_url)
-
-	remaining_length = max_length - len(opener) - len(short_url) - len(closer) - 3
 	
-	content = note.content[3:]		# Strip leading characters.
+	content = note.content
 	content = content.replace('&#39;', "'")	# Replace HTML apostrophes.
 	content = strip_tags(content)		# Strip HTML.
 	content = content.splitlines()[0]	# Keep only the first line.
 	content = content.strip()		# Strip white space.
-	content = content[:remaining_length]	# Shorten to 140 characters.
 
-	tweet = opener + content + closer + short_url
+	current_length = len(content) + 1 + len(short_url)
+	if current_length > max_length :
+		cut = max_length - len(short_url) - 2
+		content = content[:cut]
+		tweet = content + u'… ' + short_url
+	else:
+		tweet = content + ' ' + short_url	
+
 	return tweet
 
 # Converts posts to tweets.

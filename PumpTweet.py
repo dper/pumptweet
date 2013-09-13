@@ -102,7 +102,7 @@ def pull_and_push():
 	notes = get_new_activities()
 	tweets = make_tweets(notes)
 	print_tweets(tweets)
-	#post_tweets(tweets)
+	post_tweets(tweets)
 	update_recent()
 
 pull_and_push()

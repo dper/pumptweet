@@ -18,7 +18,7 @@ class MLStripper(HTMLParser):
 # Replaces HTML entities with actual characters.
 def replace_entities(html):
 	unifiable = [
-		('&nbsp;', '&'), 
+		('&amp;', '&'), 
 		('&nbsp;', ' '),
 		('&#39;', "'"),
 		('&ndash;', '-'),

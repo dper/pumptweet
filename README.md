@@ -93,7 +93,32 @@ In order to use the script, you need to create a file called `PumpTweet.ini` tha
     recent = 
     published = 
 
-All of the values in `[pump]` and `[twitter]` must be filled in, but `[history]` can be left blank.  If you fail to fill in the top two sections, you'll get some kind of error when running the script.
+All of the values in `[pump]` and `[twitter]` must be filled in, but `[history]` can be left blank.  If you fail to fill in the top two sections, you'll get some kind of error when running the script.  For convenience, a file called `PumpTweet.ini.blank` is included.  You can simply copy that file to `PumpTweet.ini` and fill in the necessary sections.
+
+Configuring Pump
+================
+
+The script uses pypump (<https://pypump.readthedocs.org/en/latest/gettingstarted/qnd.html>) to communicate with pump servers.  These instructions are lifted from the excellent pypump documentation.
+
+    $ cd src/PumpTweet
+    $ source bin/activate
+    $ python
+    >>> from pypump import PyPump
+    >>> pump = PyPump("me@my.server.org", client_name="PumpTweet")
+    
+At this point, you'll get a hyperlink to your pump server where you can sign in and give the application the necessary permissions.  Paste the verifier back into the Python prompt to continue.  Once you're signed in, you need to get the five values needed to automate this step in the future.  These should go in the `[pump]` section of the ini.
+
+    >>> key = str(pump.get_registration()[0])
+    >>> secret = str(pump.get_registration()[1])
+    >>> token = str(pump.get_token()[0])
+    >>> token_secret = str(pump.get_token()[1])
+
+Copy and paste those four values into the ini file.  Your username is just your pump username, which looks like an email address.  This is all you need to do for `[pump]`. 
+
+Configuring Twitter
+===================
+
+See <https://dev.twitter.com/>.
 
 Running the script
 ==================
@@ -144,4 +169,4 @@ If you find that you write many notes and they're being skipped, you can change 
 Sources
 =======
 * The URL shortening code, `shorturl.py`, was written by **ksaver**.  See <http://snipplr.com/view/40257/>.  As stated in the file, it's in the Public Domain.
-* The HTML-stripping code, `MLStripper.py`, was written by **Eloff**.  See <http://stackoverflow.com/questions/753052/strip-html-from-strings-in-python>.
+* The HTML-stripping code, `MLStripper.py`, was written by **Eloff**.  See <http://stackoverflow.com/questions/753052/strip-html-from-strings-in-python>.  It has since been modified.

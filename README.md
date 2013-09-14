@@ -6,20 +6,20 @@ A Python script that cross posts from a Pump.io server to Twitter.
 Overview
 ========
 
-If you aren't familiar with Pump.io, take a look at <https://microca.st/>.  Try it out and see what you think!  This script is for people already using a Pump.io service (like Microca.st, but there are many others, and you can run your own).
+If you aren't familiar with Pump.io (<http://pump.io/>), take a look at <https://microca.st/>.  Try it out and see what you think!  This script is for people already using a Pump.io service (like Microca.st, but there are many others, and you can run your own).
 
-On Pump.io (<http://pump.io/>), there are many different kinds of activities.  Here, we only look for *notes*, which are essentially regular blog entries.  We find notes on Pump.io, shorten them, make a URL to the original note (very useful if it's a long note), and post the short version as a tweet on Twitter.
+On Pump.io, there are many different kinds of activities.  Here, we only look for *notes*, which are essentially regular blog entries.  We find notes on our pump.io server, shorten them, make a URL to the original note (very useful if it's a long note), and post the short version as a tweet on Twitter.
 
 Other Pump.io activities (such as comments, likes, dislikes, and following new people) are excluded from here, because it's not obvious at face value what, if anything, among them would be of interest to a reader on Twitter.
 
-This program is designed to be run as a cron job on a regular basis (for example, 60 minutes or less).  The more frequent the cron job, the more up to date your cross posts are.
+This program is designed to be run as a cron job on a regular basis (for example, every fifteen minutes).  The more frequent the cron job, the more up to date your cross posts are.
 
-There are other programs that do similar things (for example, <http://brdcst.it/>).  If you enjoy using them, by all means continue!  On the other hand, if this script is more to your needs, wonderful.  If you browse the source code, you'll notice that (a) it's really short, because all the hard work was done by the wonderful people who wrote the dependencies, and (b) it's simple, so you can make changes if you like.
+There are other programs that do similar things (for example, <http://brdcst.it/>).  If you enjoy using them, by all means continue to do so!  On the other hand, if this script fits your needs, wonderful.  If you browse the source code, you'll notice that (a) it's really short, because all the hard work was done by the wonderful people who wrote the dependencies, and (b) it's simple, so you can make changes if you like.
 
 Example
 =======
 
-Pump notes can be of any length, but tweets are limited to 140 characters.  This program crops notes, either (1) at the first line break or (2) as close as it can to 140 characters while still leaving room for a link to the original note.  Here are some examples.
+Pump notes can be of any length, but tweets are limited to 140 characters.  This program crops notes either (1) at the first line break or (2) as close as it can to 140 characters while still leaving room for a link to the original note.  Here are some examples.
 
 Example pump #1.
 

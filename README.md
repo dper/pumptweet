@@ -16,6 +16,29 @@ This program is designed to be run as a cron job on a regular basis (for example
 
 There are other programs that do similar things (for example, <http://brdcst.it/>).  If you enjoy using them, by all means continue!  On the other hand, if this script is more to your needs, wonderful.  If you browse the source code, you'll notice that (a) it's really short, because all the hard work was done by the wonderful people who wrote the dependencies, and (b) it's simple, so you can make changes if you like.
 
+Example
+=======
+
+Pump notes can be of any length, but tweets are limited to 140 characters.  This program crops notes, either (1) at the first line break or (2) as close as it can to 140 characters while still leaving room for a link to the original note.  Here are some examples.
+
+Example pump #1.
+
+    Have a great weekend, everyone!
+
+Example tweet #1. The URL is a link to the original note.
+
+    Have a great weekend, everyone! http://ur1.ca/fislx
+    
+Example pump #2.
+
+    I have a technical question about cooling fans.
+    
+    My processor on my new machine is an i7. I'm using a SilverStone AR-01 heat sink. The heat sink is...
+
+Example tweet #2. Only the first line of the note is retained.
+
+    I have a technical question about cooling fans.... http://ur1.ca/fihk8
+
 Issues
 ======
 

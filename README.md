@@ -67,9 +67,9 @@ The command prompt should now begin with `(PumpTweet)`.
 
 You may also need to install some dependencies like PyPump (<https://github.com/xray7224/PyPump>), python-twitter (<https://github.com/bear/python-twitter>), and BeautifulSoup (<http://www.crummy.com/software/BeautifulSoup/>).
 
-    $ pip install pypump
-    $ pip install python-twitter
-    $ pip install BeautifulSoup
+    (PumpTweet)$ pip install pypump
+    (PumpTweet)$ pip install python-twitter
+    (PumpTweet)$ pip install BeautifulSoup
 
 Configuration
 =============
@@ -88,7 +88,7 @@ In order to use the script, you need to create a file called `PumpTweet.ini` tha
     secret = 
     token = 
     token_secret = 
-        
+    
     [history]
     recent = 
     published = 
@@ -102,7 +102,7 @@ The script uses pypump (<https://pypump.readthedocs.org/en/latest/gettingstarted
 
     $ cd src/PumpTweet
     $ source bin/activate
-    $ python
+    (PumpTweet)$ python
     >>> from pypump import PyPump
     >>> pump = PyPump("me@my.server.org", client_name="PumpTweet")
     
@@ -133,7 +133,7 @@ Running the script
 
 To run the script, just call it.  If you're missing any dependencies (like the ones documented above), you'll find out about it here.
 
-    $ python PumpTweet.py
+    (PumpTweet) $ python PumpTweet.py
 
 If everything is working correctly, output should look like the following.  In this example, there's one new note and therefore one new tweet which is posted to Twitter.
 

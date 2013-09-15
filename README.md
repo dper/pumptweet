@@ -10,7 +10,7 @@ If you aren't familiar with Pump.io (<http://pump.io/>), take a look at <https:/
 
 On Pump.io, there are many different kinds of activities.  Here, we only look for *notes*, which are essentially regular blog entries.  We find notes from our pump account, shorten them, make a URL to the original note (very useful if it's a long note), and post the short version as a tweet on Twitter.  In other words, we're cross-posting from Pump to Twitter.
 
-Other pump activities (such as comments, likes, dislikes, and following new people) are excluded from here, because it's not obvious at face value what, if anything, among them would be of interest to a reader on Twitter.
+Other pump activities (such as comments, likes, dislikes, and following new people) are excluded from this, because it's not obvious at face value what, if anything, among them would be of interest to a reader on Twitter.
 
 This program is designed to be run as a cron job on a regular basis (for example, every fifteen minutes).  The more frequent the cron job, the more up to date your cross posts are.
 

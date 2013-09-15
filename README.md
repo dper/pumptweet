@@ -124,7 +124,7 @@ To get the client validated with Twitter, use your favorite web browser.  This a
 * Hover your mouse over your avatar in the upper right corner. Click on `My applications`.
 * Click `Create a new application`.
 * You need to give it a name (like `PumpTweet314`), a description (like `A cross-posting script from Pump to Twitter.`), and a website (if you make a fork of PumpTweet on GitHub, that would be a nice URL, but anything is OK).  Also check the box agreeing with their terms and answer the CAPTCHA.
-* Click on the `Settings` tab.  Under `Application Type`, change `Access` to `Read and Write`.  At the bottom of the screen, click `Update this Twitter application's settings`.
+* Click on the `Settings` tab.  Change `Access` to `Read and Write`.  At the bottom of the screen, click `Update this Twitter application's settings`.
 * Click on the `Details` tab. Near the bottom of the screen click `Create my access token`.
 * Click on the `OAuth tool` tab.  This screen should show you the four values needed in the ini file.  Copy and paste them.  That's all you need to do for `[twitter]`.
 

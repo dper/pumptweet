@@ -56,16 +56,25 @@ def make_tweet(note):
 	content = note.content
 	content = content.replace('&#39;', "'")	# Replace HTML apostrophes.
 	content = strip_tags(content)		# Strip HTML.
+
+	ellipsis = False
+	if len(content.splitlines()) > 1: ellipsis = True
+
 	content = content.splitlines()[0]	# Keep only the first line.
 	content = content.strip()		# Strip white space.
 
 	current_length = len(content) + 1 + len(short_url)
-	if current_length > max_length :
-		cut = max_length - len(short_url) - 2
-		content = content[:cut]
+
+	if current_length > max_length: ellipsis = True
+
+	cut = max_length - len(short_url) - 1
+	if ellipsis: cut -= 1
+	content = content[:cut]
+
+	if ellipsis:
 		tweet = content + u'… ' + short_url
 	else:
-		tweet = content + ' ' + short_url	
+		tweet = content + ' ' + short_url
 
 	return tweet
 

@@ -10,6 +10,26 @@ ptp = PumpTweetParser()
 pump_me = ptp.get_pump_me()
 twitter_api = ptp.get_twitter_api()
 
+# Returns a certain number of recent activities.
+# This could lead to duplicate tweets and is just for testing.
+def get_recent_activities(desired):
+	print 'Getting ' + str(desired) + ' activities.'
+	outbox = pump_me.outbox
+	notes = []
+
+	for activity in outbox.major[:20]:
+		print '> ' + activity.obj.objectType + ' (' + str(activity.published) + ')'
+
+		# Only post several notes. Others are forgotten.
+		if len(notes) >= desired: break
+
+		obj = activity.obj
+
+		# Only post notes to Twitter.
+		if obj.objectType == 'note' and obj.deleted == False:
+			notes.append(obj)
+	return notes
+
 # Returns recent outbox activities.
 def get_new_activities():
 	print 'Looking at Pump outbox activity...'
@@ -48,28 +68,32 @@ def get_new_activities():
 
 # Make the text for a tweet that includes the contest of the note.
 def make_tweet(note):
-	max_length = 139
+	max_length = 136
 	private_url = note.id
 	public_url = private_url.replace('/api/note/', '/dper/note/')
 	short_url = shorten(public_url)
+	max_length = max_length - len(short_url) - 1
 	
 	content = note.content
 	content = content.replace('&#39;', "'")	# Replace HTML apostrophes.
 	content = strip_tags(content)		# Strip HTML.
 
 	ellipsis = False
-	if len(content.splitlines()) > 1: ellipsis = True
+	if len(content.splitlines()) > 1:
+		ellipsis = True
 
 	content = content.splitlines()[0]	# Keep only the first line.
 	content = content.strip()		# Strip white space.
 
-	current_length = len(content) + 1 + len(short_url)
+	current_length = len(content)
 
-	if current_length > max_length: ellipsis = True
+	if current_length > max_length:
+		ellipsis = True
 
-	cut = max_length - len(short_url) - 1
-	if ellipsis: cut -= 1
-	content = content[:cut]
+	if ellipsis:
+		max_length = max_length - 1
+
+	content = content[:max_length]
 
 	if ellipsis:
 		tweet = content + u'… ' + short_url
@@ -106,6 +130,13 @@ def update_recent():
 	published = activity.published
 	ptp.update_recent(latest, published)
 
+# Pulls from Pump and produces text for some tweets.
+# Nothing is sent to Twitter. This is for testing.
+def pull_and_test():
+	notes = get_recent_activities(5)
+	tweets = make_tweets(notes)
+	print_tweets(tweets)
+
 # Pulls from Pump and pushes to Twitter.
 def pull_and_push():
 	notes = get_new_activities()
@@ -114,4 +145,5 @@ def pull_and_push():
 	post_tweets(tweets)
 	update_recent()
 
+#pull_and_test()
 pull_and_push()

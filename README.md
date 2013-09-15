@@ -51,8 +51,8 @@ This documents how to install PumpTweet on Debian.  Other Linux distributions sh
 
 This installs the script in `~/src/PumpTweet`.  First, get the code from GitHub (<https://github.com/dper/PumpTweet>).
 
+    $ cd ~/src
     $ git clone https://github.com/dper/PumpTweet
-    $ cd PumpTweet
 
 There are several choices for dependencies.  You can install them globally or simply place everything here in a `virtualenv`.  The simplest choice is using `virtualenv`.  It's nice because all the dependencies will be placed inside this one directory, and if you decide things are causing problems, you can just delete the entire directory without affecting anything else.
 
@@ -98,7 +98,7 @@ All of the values in `[pump]` and `[twitter]` must be filled in, but `[history]`
 Configuring Pump
 ================
 
-The script uses pypump (<https://pypump.readthedocs.org/en/latest/gettingstarted/qnd.html>) to communicate with pump servers.  These instructions are lifted from the excellent pypump documentation.
+The script uses pypump (<https://pypump.readthedocs.org/en/latest/gettingstarted/qnd.html>) to communicate with pump servers.  These instructions are lifted from the excellent pypump documentation.  This assumes you already have an account.
 
     $ cd src/PumpTweet
     $ source bin/activate
@@ -118,7 +118,15 @@ Copy and paste those four values into the ini file.  Your username is just your 
 Configuring Twitter
 ===================
 
-See <https://dev.twitter.com/>.
+To get the client validated with Twitter, use your favorite web browser.  This assumes you already have an account.
+* Go to <https://dev.twitter.com/>.
+* Sign in using the link in the upper right corner.
+* Hover your mouse over your avatar in the upper right corner. Click on `My applications`.
+* Click `Create a new application`.
+* You need to give it a name (like `PumpTweet314`), a description (like `A cross-posting script from Pump to Twitter.`), and a website (if you make a fork of PumpTweet on GitHub, that would be a nice URL, but anything is OK).  Also check the box agreeing with their terms and answer the CAPTCHA.
+* Click on the `Settings` tab.  Under `Application Type`, change `Access` to `Read and Write`.  At the bottom of the screen, click `Update this Twitter application's settings`.
+* Click on the `Details` tab. Near the bottom of the screen click `Create my access token`.
+* Click on the `OAuth tool` tab.  This screen should show you the four values needed in the ini file.  Copy and paste them.  That's all you need to do for `[twitter]`.
 
 Running the script
 ==================

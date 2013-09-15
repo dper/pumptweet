@@ -6,11 +6,11 @@ A Python script that cross posts from a Pump.io server to Twitter.
 Overview
 ========
 
-If you aren't familiar with Pump.io (<http://pump.io/>), take a look at <https://microca.st/>.  Try it out and see what you think!  This script is for people already using a Pump.io service (like Microca.st, but there are many others, and you can run your own).
+If you aren't familiar with Pump.io (<http://pump.io/>), take a look at <https://microca.st/>.  Try it out and see what you think!  This script is for people already using a pump service (like microca.st, but there are many others, and you can run your own).
 
-On Pump.io, there are many different kinds of activities.  Here, we only look for *notes*, which are essentially regular blog entries.  We find notes on our pump.io server, shorten them, make a URL to the original note (very useful if it's a long note), and post the short version as a tweet on Twitter.
+On Pump.io, there are many different kinds of activities.  Here, we only look for *notes*, which are essentially regular blog entries.  We find notes from our pump account, shorten them, make a URL to the original note (very useful if it's a long note), and post the short version as a tweet on Twitter.  In other words, we're cross-posting from Pump to Twitter.
 
-Other Pump.io activities (such as comments, likes, dislikes, and following new people) are excluded from here, because it's not obvious at face value what, if anything, among them would be of interest to a reader on Twitter.
+Other pump activities (such as comments, likes, dislikes, and following new people) are excluded from here, because it's not obvious at face value what, if anything, among them would be of interest to a reader on Twitter.
 
 This program is designed to be run as a cron job on a regular basis (for example, every fifteen minutes).  The more frequent the cron job, the more up to date your cross posts are.
 
@@ -37,12 +37,12 @@ Example pump #2.
 
 Example tweet #2. Only the first line of the note is retained.
 
-    I have a technical question about cooling fans.... http://ur1.ca/fihk8
+    I have a technical question about cooling fans.… http://ur1.ca/fihk8
 
 Issues
 ======
 
-If you see any issues, obvious but missing features, or problems with the documentation, feel free to open an issue at <https://github.com/dper/PumpTweet/issues>.
+If you see any issues, obvious but missing features, or problems with the documentation, feel free to open an issue at <https://github.com/dper/PumpTweet/issues> or contact the author at <https://microca.st/dper>.
 
 Installation
 ============
@@ -98,7 +98,7 @@ All of the values in `[pump]` and `[twitter]` must be filled in, but `[history]`
 Configuring Pump
 ================
 
-The script uses pypump (<https://pypump.readthedocs.org/en/latest/gettingstarted/qnd.html>) to communicate with pump servers.  These instructions are lifted from the excellent pypump documentation.  This assumes you already have an account.
+The script uses PyPump (<https://pypump.readthedocs.org/en/latest/gettingstarted/qnd.html>) to communicate with pump servers.  These instructions are based on the excellent PyPump documentation.  This assumes you already have an account.
 
     $ cd src/PumpTweet
     $ source bin/activate
@@ -106,7 +106,7 @@ The script uses pypump (<https://pypump.readthedocs.org/en/latest/gettingstarted
     >>> from pypump import PyPump
     >>> pump = PyPump("me@my.server.org", client_name="PumpTweet")
     
-At this point, you'll get a hyperlink to your pump server where you can sign in and give the application the necessary permissions.  Paste the verifier back into the Python prompt to continue.  Once you're signed in, you need to get the five values needed to automate this step in the future.  These should go in the `[pump]` section of the ini.
+At this point, you'll get a hyperlink to your pump server.  Paste the link into your browser to open a page where you can sign in and give the application the necessary permissions.  Paste the verifier back into the Python prompt to continue.  Once you're signed in, you need to get the five values needed to automate this step in the future.  These should go in the `[pump]` section of the ini.
 
     >>> key = str(pump.get_registration()[0])
     >>> secret = str(pump.get_registration()[1])
@@ -161,6 +161,10 @@ If you run the script a second time, it looks to see if there is anything new si
     Posting to Twitter...
     Updating history...
 
+For convenience, there is a Bash script, `PumpTweet.sh` that does `virtualenv` stuff for you.  Call that script from the command line to make sure it works.
+
+    $ ./src/PumpTweet/PumpTweet.sh
+
 Cron and rate limits
 ====================
 
@@ -168,7 +172,7 @@ Suppose you have installed the program in `/home/me/src/PumpTweet` and have test
 
     */15 * * * * /home/me/src/PumpTweet/PumpTweet.sh > /dev/null
 
-For most users, there is no worry, but if you tend to write many notes in a short amount of time, cross posting can be somewhat delicate.  Twitter has a rate limit, though I don't know exactly what it is.  This script is rather conservative and only posts up to three tweets at a time.  That means if you have written five pump notes since the last time you called this program, the most recent three will become tweets and the oldest two will be entirely ignored.
+For most users, there is no worry, but if you tend to write many notes in a short amount of time, cross posting can be somewhat delicate.  Twitter has a rate limit, though I don't know exactly what it is.  This script is rather conservative and only posts up to three tweets at a time.  That means if you have written five pump notes since the last time you called this program, the newest three will become tweets and the oldest two will be entirely ignored.
 
 If you find that you write many notes and they're being skipped, you can change the code in `PumpTweet.py` and post more than three at a time.  But don't raise the value too high, or you might hit the Twitter rate limit, start looking spammy to your Twitter followers, or both.  A better approach might be a more frequent cron job.  The following is a cron job that runs every five minutes.
 

@@ -20,6 +20,7 @@ def get_new_activities(testing=False):
 	published = ptp.get_published()
 	recent = ptp.get_recent()
 	outbox = pump_me.outbox
+	history = ptp.get_history()
 
 	# Users with a lot of non-note activity might raise this.
 	count = 20
@@ -28,14 +29,13 @@ def get_new_activities(testing=False):
 	# Posting too frequently might lead to errors on Twitter.
 	# If this number is too small, consider a more frequent cronjob.
 	allowable_posts = 3
-
 	notes = []
 
 	for activity in outbox.major[:count]:
 		print '> ' + activity.obj.objectType + ' (' + str(activity.published) + ')'
 
 		# Stop looking at the outbox upon finding old activity.
-		if not testing:
+		if history and not testing:
 			if recent == activity.id: break
 			if published >= activity.published: break
 

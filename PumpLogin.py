@@ -23,10 +23,13 @@ class PumpTweetParser:
 		parser.read(self.filename)
 		self._parser = parser
 		self._recent = parser.get('history', 'recent')
-	
+
 		# Converts the date to a usable form.
-		s = parser.get('history', 'published')
-		self._published = parse(s)
+		date = parser.get('history', 'published')
+		self._published = parse(date)
+
+		# Notes whether history exists in the ini file.
+		self._history = len(date) > 0 and len(self._recent) > 0
 
 	# Logs in to the Pump server.
 	def pump_login(self):
@@ -88,6 +91,10 @@ class PumpTweetParser:
 	# Returns the datetime of the last update (from the ini file).
 	def get_published(self):
 		return self._published
+
+	# Returns True iff there is valid history (from the ini file).
+	def get_history(self):
+		return self._history
 
 	# Returns the Pump user object.
 	def get_pump_me(self):

@@ -11,36 +11,9 @@ pump_me = ptp.get_pump_me()
 pump_username = ptp.get_pump_username()
 twitter_api = ptp.get_twitter_api()
 
-# Returns a certain number of recent activities.
-# This could lead to duplicate tweets and is just for testing.
-def get_recent_activities(desired):
-	print 'Getting ' + str(desired) + ' activities.'
-	outbox = pump_me.outbox
-	notes = []
-
-	for activity in outbox.major[:20]:
-		print '> ' + activity.obj.objectType + ' (' + str(activity.published) + ')'
-
-		# Only post several notes. Others are forgotten.
-		if len(notes) >= desired: break
-
-		obj = activity.obj
-
-		# Only post notes to Twitter.
-		if obj.objectType != 'note': break
-
-		# Skip deleted notes.
-		if obj.deleted: break
-
-		# Omit posts written by others and then shared.
-		note_author = obj.author.id.lstrip('acct:')
-		if obj.author != pump_username: break
-
-		notes.append(obj)
-	return notes
-
 # Returns recent outbox activities.
-def get_new_activities():
+# If testing, don't stop at recent activity.
+def get_new_activities(testing=False):
 	print 'Looking at Pump outbox activity...'
 	
 	# Some of this can be replaced by 'since' if later implemented by PyPump.
@@ -62,8 +35,9 @@ def get_new_activities():
 		print '> ' + activity.obj.objectType + ' (' + str(activity.published) + ')'
 
 		# Stop looking at the outbox upon finding old activity.
-		if recent == activity.id: break
-		if published >= activity.published: break
+		if not testing:
+			if recent == activity.id: break
+			if published >= activity.published: break
 
 		# Only post several notes. Others are forgotten.
 		if len(notes) >= allowable_posts: break
@@ -78,7 +52,7 @@ def get_new_activities():
 
 		# Omit posts written by others and then shared.
 		note_author = obj.author.id.lstrip('acct:')
-		if obj.author != pump_username: break
+		if note_author != pump_username: break
 
 		notes.append(obj)
 	return notes
@@ -150,7 +124,7 @@ def update_recent():
 # Pulls from Pump and produces text for some tweets.
 # Nothing is sent to Twitter. This is for testing.
 def pull_and_test():
-	notes = get_recent_activities(5)
+	notes = get_new_activities(testing=True)
 	tweets = make_tweets(notes)
 	print_tweets(tweets)
 
@@ -162,5 +136,5 @@ def pull_and_push():
 	post_tweets(tweets)
 	update_recent()
 
-pull_and_test()
-#pull_and_push()
+#pull_and_test()
+pull_and_push()

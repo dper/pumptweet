@@ -96,3 +96,7 @@ class PumpTweetParser:
 	# Returns the Twitter user object.
 	def get_twitter_api(self):
 		return self._api
+
+	# Returns the pump username.
+	def get_pump_username(self):
+		return self._username

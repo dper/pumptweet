@@ -8,6 +8,7 @@ from shorturl import shorten
 # Run the parser and grab useful values.
 ptp = PumpTweetParser()
 pump_me = ptp.get_pump_me()
+pump_username = ptp.get_pump_username()
 twitter_api = ptp.get_twitter_api()
 
 # Returns a certain number of recent activities.
@@ -26,8 +27,16 @@ def get_recent_activities(desired):
 		obj = activity.obj
 
 		# Only post notes to Twitter.
-		if obj.objectType == 'note' and obj.deleted == False:
-			notes.append(obj)
+		if obj.objectType != 'note': break
+
+		# Skip deleted notes.
+		if obj.deleted: break
+
+		# Omit posts written by others and then shared.
+		note_author = obj.author.id.lstrip('acct:')
+		if obj.author != pump_username: break
+
+		notes.append(obj)
 	return notes
 
 # Returns recent outbox activities.
@@ -62,8 +71,16 @@ def get_new_activities():
 		obj = activity.obj
 
 		# Only post notes to Twitter.
-		if obj.objectType == 'note' and obj.deleted == False:
-			notes.append(obj)
+		if obj.objectType != 'note': break
+
+		# Skip deleted notes.
+		if obj.deleted: break
+
+		# Omit posts written by others and then shared.
+		note_author = obj.author.id.lstrip('acct:')
+		if obj.author != pump_username: break
+
+		notes.append(obj)
 	return notes
 
 # Make the text for a tweet that includes the contest of the note.
@@ -145,5 +162,5 @@ def pull_and_push():
 	post_tweets(tweets)
 	update_recent()
 
-#pull_and_test()
-pull_and_push()
+pull_and_test()
+#pull_and_push()

@@ -4,12 +4,19 @@ from PumpLogin import PumpTweetParser
 from pypump import PyPump
 from MLStripper import strip_tags
 from shorturl import shorten
+from unicodedata import normalize
 
 # Run the parser and grab useful values.
 ptp = PumpTweetParser()
 pump_me = ptp.get_pump_me()
 pump_username = ptp.get_pump_username()
 twitter_api = ptp.get_twitter_api()
+
+# Returns an ASCII equivalent to the provided Unicode.
+# This conversion is potentially quite lossy.
+def unicode_to_ascii(text):
+	text = normalize('NFKD', text).encode('ascii','ignore')
+	return text
 
 # Returns recent outbox activities.
 # If testing, don't stop at recent activity.
@@ -104,7 +111,7 @@ def make_tweets(notes):
 def print_tweets(tweets):
 	print 'Printing tweets...'
 	for tweet in tweets:
-		print '> ' + tweet
+		print '> ' + unicode_to_ascii(tweet)
 
 # Posts a list of tweets.
 def post_tweets(tweets):

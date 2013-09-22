@@ -26,6 +26,8 @@ def replace_entities(html):
 		('&rarr;', u'→'),
 		('&larr;', u'←'),
 		('&lrarr;', u'↔'),
+		('&ldquo;', '"'),
+		('&rdquo;', '"'),
 	]
 
 	for (entity, char) in unifiable:

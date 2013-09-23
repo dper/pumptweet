@@ -21,6 +21,7 @@ def replace_entities(html):
 		('&amp;', '&'), 
 		('&nbsp;', ' '),
 		('&#39;', "'"),
+		('&quot;', "'"),
 		('&ndash;', '-'),
 		('&mdash;', u'–'),
 		('&rarr;', u'→'),
@@ -31,7 +32,7 @@ def replace_entities(html):
 	]
 
 	for (entity, char) in unifiable:
-		html.replace(entity, char)
+		html = html.replace(entity, char)
 
 	return html
 

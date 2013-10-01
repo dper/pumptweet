@@ -93,12 +93,12 @@ In order to use the script, you need to create a file called `PumpTweet.ini` tha
     recent = 
     published = 
 
-All of the values in `[pump]` and `[twitter]` must be filled in, but `[history]` can be left blank.  If you fail to fill in the top two sections, you'll get some kind of error when running the script.  For convenience, a file called `PumpTweet.ini.blank` is included.  You can simply copy that file to `PumpTweet.ini` and fill in the necessary sections.
+All of the values in `[pump]` and `[twitter]` must be filled in, but the two entries in `[history]` can be left blank.  If you fail to fill in the top two sections, you'll get some kind of error when running the script.  For convenience, a file called `PumpTweet.ini.blank` is included.  You can simply copy that file to `PumpTweet.ini` and fill in the necessary sections.
 
 Configuring Pump
 ================
 
-The script uses PyPump (<https://pypump.readthedocs.org/en/latest/gettingstarted/qnd.html>) to communicate with pump servers.  These instructions are based on the excellent PyPump documentation.  This assumes you already have an account.
+The script uses PyPump (<https://pypump.readthedocs.org/en/latest/gettingstarted/qnd.html>) to communicate with pump servers.  These instructions are based on the excellent PyPump documentation.  This assumes you already have a pump account.
 
     $ cd src/PumpTweet
     $ source bin/activate
@@ -118,7 +118,7 @@ Copy and paste those four values into the ini file.  Your username is just your 
 Configuring Twitter
 ===================
 
-To get the client validated with Twitter, use your favorite web browser.  This assumes you already have an account.
+To get the client validated with Twitter, use your favorite web browser.  This assumes you already have a Twitter account.
 * Go to <https://dev.twitter.com/>.
 * Sign in using the link in the upper right corner.
 * Hover your mouse over your avatar in the upper right corner. Click on `My applications`.

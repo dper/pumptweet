@@ -1,7 +1,7 @@
 Thanks
 ======
 
-To anyone who has contributed to this project, thanks!
+To anyone who has contributed to this project, thanks for your help!
 
 Attribution
 ===========

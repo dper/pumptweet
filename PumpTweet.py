@@ -4,6 +4,7 @@ from PumpLogin import PumpTweetParser
 from pypump import PyPump
 from MLStripper import strip_tags
 from shorturl import shorten
+from unicodedata import normalize
 
 # Run the parser and grab useful values.
 ptp = PumpTweetParser()
@@ -104,7 +105,8 @@ def make_tweets(notes):
 def print_tweets(tweets):
 	print 'Printing tweets...'
 	for tweet in tweets:
-		print u'> ' + tweet
+		normal = normalize('NFKD', tweet).encode('ascii', 'ignore')
+		print '> ' + normal
 
 # Posts a list of tweets.
 def post_tweets(tweets):

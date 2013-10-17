@@ -132,5 +132,5 @@ def pull_and_push():
 	post_tweets(tweets)
 	update_recent()
 
-pull_and_test()
-#pull_and_push()
+#pull_and_test()
+pull_and_push()

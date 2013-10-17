@@ -118,10 +118,10 @@ def post_tweets(tweets):
 # Updates the ini file with the most recent entry.
 def update_recent():
 	print 'Updating history...'
-	activity = pump_me.outbox.major[0]
+	activity = __pump_me__.outbox.major[0]
 	latest = activity.id
 	published = activity.published
-	ptp.update_recent(latest, published)
+	__ptp__.update_recent(latest, published)
 
 # Pulls from Pump and produces text for some tweets.
 # Nothing is sent to Twitter. This is for testing.
@@ -141,8 +141,12 @@ def pull_and_push():
 	post_tweets(tweets)
 	update_recent()
 
-parser = argparse.ArgumentParser()
-parser.parse_args()
+description = 'Cross-post from pump to twitter.  Call with no options for normal use.'
+parser = argparse.ArgumentParser(description=description)
+parser.add_argument('-t', '--test', help='do a test-run without actually tweeting', action='store_true')
+args = parser.parse_args()
 
-pull_and_test()
-#pull_and_push()
+if args.test:
+	pull_and_test()
+else:
+	pull_and_push()

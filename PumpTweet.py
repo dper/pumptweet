@@ -61,37 +61,30 @@ def get_new_activities(testing=False):
 # Make the text for a tweet that includes the contest of the note.
 def make_tweet(note):
 	max_length = 136
+	content = note.content
+
+	# Convert or remove HTML.
+	content = strip_tags(content)
+
+	# If the note fits in a tweet, post it as-is.
+	# Tweets of notes this short don't need to link to their source.
+	if len(content.splitlines()) == 1 and len(content) <= max_length:
+		return content
+
+	# Make a short URL pointing to the original note.
 	private_url = note.id
 	public_url = private_url.replace('/api/note/', '/dper/note/')
 	short_url = shorten(public_url)
-	max_length = max_length - len(short_url) - 1
-	
-	content = note.content
-	content = content.replace('&#39;', "'")	# Replace HTML apostrophes.
-	content = strip_tags(content)		# Strip HTML.
 
-	ellipsis = False
-	if len(content.splitlines()) > 1:
-		ellipsis = True
+	# Make room for the ellipsis and URL at the end of the tweet.
+	cropped_length = max_length - len(short_url) - 2
 
-	content = content.splitlines()[0]	# Keep only the first line.
-	content = content.strip()		# Strip white space.
+	# Keep only the first line.
+	content = content.splitlines()[0]
+	content = content[:cropped_length]
+	content = content.rstrip()
 
-	current_length = len(content)
-
-	if current_length > max_length:
-		ellipsis = True
-
-	if ellipsis:
-		max_length = max_length - 1
-
-	content = content[:max_length]
-
-	if ellipsis:
-		tweet = content + u'… ' + short_url
-	else:
-		tweet = content + ' ' + short_url
-
+	tweet = content + u'… ' + short_url
 	return tweet
 
 # Converts posts to tweets.
@@ -126,6 +119,7 @@ def update_recent():
 # Pulls from Pump and produces text for some tweets.
 # Nothing is sent to Twitter. This is for testing.
 def pull_and_test():
+	print 'Testing PumpTweet...'
 	notes = get_new_activities(testing=True)
 	tweets = make_tweets(notes)
 	print_tweets(tweets)
@@ -138,5 +132,5 @@ def pull_and_push():
 	post_tweets(tweets)
 	update_recent()
 
-#pull_and_test()
-pull_and_push()
+pull_and_test()
+#pull_and_push()

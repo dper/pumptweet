@@ -177,3 +177,14 @@ For most users, there is no worry, but if you tend to write many notes in a shor
 If you find that you write many notes and they're being skipped, you can change the code in `PumpTweet.py` and post more than three at a time.  But don't raise the value too high, or you might hit the Twitter rate limit, start looking spammy to your Twitter followers, or both.  A better approach might be a more frequent cron job.  The following is a cron job that runs every five minutes.
 
     */5 * * * * /home/me/src/PumpTweet/PumpTweet.sh > /dev/null
+
+Testing
+=======
+
+If you're trying to modify the script or track down some other error, you might want to do test runs.  In that case, call the script as follows, updating the directories according to where you installed it.
+
+    (PumpTweet) $ python PumpTweet.py --test
+
+For the (very short) command line help documentation, use this command.
+
+    (PumpTweet) $ python PumpTweet.py --help

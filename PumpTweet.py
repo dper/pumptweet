@@ -5,12 +5,19 @@ from pypump import PyPump
 from MLStripper import strip_tags
 from shorturl import shorten
 from unicodedata import normalize
+import argparse
 
-# Run the parser and grab useful values.
-ptp = PumpTweetParser()
-pump_me = ptp.get_pump_me()
-pump_username = ptp.get_pump_username()
-twitter_api = ptp.get_twitter_api()
+# Connect to servers.
+def connect_to_servers():
+	# Run the parser and grab useful values.
+	global __ptp__
+	global __pump_me__
+	global __pump_username__
+	global __twitter_api__
+	__ptp__ = PumpTweetParser()
+	__pump_me__ = __ptp__.get_pump_me()
+	__pump_username__ = __ptp__.get_pump_username()
+	__twitter_api__ = __ptp__.get_twitter_api()
 
 # Returns recent outbox activities.
 # If testing, don't stop at recent activity.
@@ -18,10 +25,10 @@ def get_new_activities(testing=False):
 	print 'Looking at Pump outbox activity...'
 	
 	# Some of this can be replaced by 'since' if later implemented by PyPump.
-	published = ptp.get_published()
-	recent = ptp.get_recent()
-	outbox = pump_me.outbox
-	history = ptp.get_history()
+	published = __ptp__.get_published()
+	recent = __ptp__.get_recent()
+	outbox = __pump_me__.outbox
+	history = __ptp__.get_history()
 
 	# Users with a lot of non-note activity might raise this.
 	count = 20
@@ -53,7 +60,7 @@ def get_new_activities(testing=False):
 
 		# Omit posts written by others and then shared.
 		note_author = obj.author.id.lstrip('acct:')
-		if note_author != pump_username: break
+		if note_author != __pump_username__: break
 
 		notes.append(obj)
 	return notes
@@ -106,7 +113,7 @@ def post_tweets(tweets):
 	print 'Posting to Twitter...'
 	print 'New tweet count: ' + str(len(tweets)) + '.'
 	for tweet in tweets:
-		twitter_api.PostUpdate(tweet)
+		__twitter_api__.PostUpdate(tweet)
 
 # Updates the ini file with the most recent entry.
 def update_recent():
@@ -120,17 +127,22 @@ def update_recent():
 # Nothing is sent to Twitter. This is for testing.
 def pull_and_test():
 	print 'Testing PumpTweet...'
+	connect_to_servers()
 	notes = get_new_activities(testing=True)
 	tweets = make_tweets(notes)
 	print_tweets(tweets)
 
 # Pulls from Pump and pushes to Twitter.
 def pull_and_push():
+	connect_to_servers()
 	notes = get_new_activities()
 	tweets = make_tweets(notes)
 	print_tweets(tweets)
 	post_tweets(tweets)
 	update_recent()
 
-#pull_and_test()
-pull_and_push()
+parser = argparse.ArgumentParser()
+parser.parse_args()
+
+pull_and_test()
+#pull_and_push()

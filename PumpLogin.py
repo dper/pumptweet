@@ -1,14 +1,21 @@
 from pypump import PyPump
+from pypump import Client
 from dateutil.parser import parse
 from ConfigParser import SafeConfigParser
 import twitter
 import os.path
+
+def simple_verifier(url):
+	print 'Please follow the instructions at the following URL:'
+	print url
+	return raw_input("Verifier: ") # the verifier is a string
 
 class PumpTweetParser:
 	"""Parses the ini file and provides the results on demand."""
 
 	# This file must exist in the current directory.
 	filename = 'PumpTweet.ini'
+
 
 	# Parses the ini file.
 	def parse_ini(self):
@@ -40,13 +47,19 @@ class PumpTweetParser:
 		secret = self._parser.get('pump', 'secret')
 		token = self._parser.get('pump', 'token')
 		token_secret = self._parser.get('pump', 'token_secret')
+
+		client = Client(
+			webfinger = username,
+			name = "Pump.io",
+			type = "native",
+			key = key,
+			secret = secret)
+
 		pump = PyPump(
-			username,
-			key=key,
-			secret=secret,
-			token=token,
-			token_secret=token_secret
-		)
+			client = client,
+			token = token,
+			secret = token_secret,
+			verifier_callback = simple_verifier)
 
 		me = pump.Person(username)
 		

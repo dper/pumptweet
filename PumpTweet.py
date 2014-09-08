@@ -79,8 +79,10 @@ def make_tweet(note):
 		return content
 
 	# Make a short URL pointing to the original note.
+	# Replace the middle of the private note URL to get a usable public link.
 	private_url = note.id
-	public_url = private_url.replace('/api/note/', '/dper/note/')
+	short_username = __pump_username__.split('@')[0]
+	public_url = private_url.replace('/api/note/', '/' + short_username + '/note/')
 	short_url = shorten(public_url)
 
 	# Make room for the ellipsis and URL at the end of the tweet.

@@ -188,3 +188,9 @@ If you're trying to modify the script or track down some other error, you might 
 For the (very short) command line help documentation, use this command.
 
     (PumpTweet) $ python PumpTweet.py --help
+
+
+Thanks
+======
+
+The `pump.io` community at large has helped advertise this project.  Thanks to `diocles` for some bug reports and patches.

@@ -59,7 +59,8 @@ def get_new_activities(testing=False):
 		if obj.deleted: break
 
 		# Omit posts written by others and then shared.
-		note_author = obj.author.id.lstrip('acct:')
+		note_author = obj.author.id[len('acct:'):]
+
 		if note_author != __pump_username__: break
 
 		notes.append(obj)

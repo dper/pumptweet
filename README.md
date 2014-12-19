@@ -103,8 +103,22 @@ The script uses PyPump (<https://pypump.readthedocs.org/en/latest/gettingstarted
     $ cd src/PumpTweet
     $ source bin/activate
     (PumpTweet)$ python
-    >>> from pypump import PyPump
-    >>> pump = PyPump("me@my.server.org", client_name="PumpTweet")
+    
+From the python prompt, do the following.
+    
+    from pypump import PyPump, Client
+    
+    def simple_verifier(url):
+        print 'Please follow the instructions at the following URL:'
+        print url
+        return raw_input("Verifier: ") # the verifier is a string
+        
+    webfinger = "id@pump.server"
+    name = "PumpTweet"
+    type = "native"
+    
+    client = Client(webfinger=webfinger, name=name, type=type)
+    pump = PyPump(client=client, verifier_callback=simple_verifier)
     
 At this point, you'll get a hyperlink to your pump server.  Paste the link into your browser to open a page where you can sign in and give the application the necessary permissions.  Paste the verifier back into the Python prompt to continue.  Once you're signed in, you need to get the five values needed to automate this step in the future.  These should go in the `[pump]` section of the ini.
 

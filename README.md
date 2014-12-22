@@ -204,7 +204,17 @@ For the (very short) command line help documentation, use this command.
     (PumpTweet) $ python PumpTweet.py --help
 
 
+GNU Social
+==========
+
+GNU social (http://gnu.io/social/) has a Twitter-like API, and you can use this script, with a few modifications, to cross-post from Pump.io to GNU social.  @sazius (<https://pump.saz.im/sazius/note/jdTJx2pQRGiEDpB5eDlXEg>) has done so, and here is what he says.
+
+> It was quite easy: just add the parameter `base_url='https://your.gnu.social/api'` to the call to `twitter.API()` in `twitter_login` in `PumpLogin.py`. I guess you could have that as a configurable parameter.
+>
+> Next problem was to get the OAuth token from GNU Social, I used the `get_access_token.py` script, but you have to add `?oauth_callback=oob` to the `REQUEST_TOKEN_URL`, and of course replace the Twitter API URLs with the one for GNU social.
+
+
 Thanks
 ======
 
-The `pump.io` community at large has helped advertise this project.  Thanks to `diocles` for some bug reports and patches.
+The `pump.io` community at large has helped advertise this project.  Thanks to `diocles` for some bug reports and patches.  The code for filtering out non-public posts came from `sazius`, as did information on posting to GNU social.

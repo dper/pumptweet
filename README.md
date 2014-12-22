@@ -10,9 +10,11 @@ If you aren't familiar with Pump.io (<http://pump.io/>), take a look at <https:/
 
 On Pump.io, there are many different kinds of activities.  Here, we only look for *notes*, which are essentially regular blog entries.  We find notes from our pump account, shorten them, make a URL to the original note (very useful if it's a long note), and post the short version as a tweet on Twitter.  In other words, we're cross-posting from Pump to Twitter.
 
+When you compose a note, you choose the recipients.  This script will cross-post your note if it's `To: Public` or `CC: Public`.  Posts that aren't sent to `Public` are ignored.
+
 Other pump activities (such as comments, likes, dislikes, and following new people) are excluded from this, because it's not obvious at face value what, if anything, among them would be of interest to a reader on Twitter.
 
-This program is designed to be run as a cron job on a regular basis (for example, every fifteen minutes).  The more frequent the cron job, the more up to date your cross posts are.
+This program is designed to be run as a cron job on a regular basis (for example, every five minutes).  The more frequent the cron job, the more up to date your cross posts are.
 
 There are other programs that do similar things (for example, <http://brdcst.it/>).  If you enjoy using them, by all means continue to do so!  On the other hand, if this script fits your needs, wonderful.  If you browse the source code, you'll notice that (a) it's really short, because all the hard work was done by the wonderful people who wrote the dependencies, and (b) it's simple, so you can make changes if you like.
 
@@ -182,15 +184,13 @@ For convenience, there is a Bash script, `PumpTweet.sh` that does `virtualenv` s
 Cron and rate limits
 ====================
 
-Suppose you have installed the program in `/home/me/src/PumpTweet` and have tested it using `PumpTweet.sh` to confirm that all is in working order.  The next thing to do is to make a cron job (using `crontab -e`) like the following.  The following cron job runs every fifteen minutes.
+Suppose you have installed the program in `/home/me/src/PumpTweet` and have tested it using `PumpTweet.sh` to confirm that all is in working order.  The next thing to do is to make a cron job (using `crontab -e`) like the following.  The following cron job runs every five minutes.
 
-    */15 * * * * /home/me/src/PumpTweet/PumpTweet.sh > /dev/null
+    */5 * * * * /home/me/src/PumpTweet/PumpTweet.sh > /dev/null
 
 For most users, there is no worry, but if you tend to write many notes in a short amount of time, cross posting can be somewhat delicate.  Twitter has a rate limit, though I don't know exactly what it is.  This script is rather conservative and only posts up to three tweets at a time.  That means if you have written five pump notes since the last time you called this program, the newest three will become tweets and the oldest two will be entirely ignored.
 
-If you find that you write many notes and they're being skipped, you can change the code in `PumpTweet.py` and post more than three at a time.  But don't raise the value too high, or you might hit the Twitter rate limit, start looking spammy to your Twitter followers, or both.  A better approach might be a more frequent cron job.  The following is a cron job that runs every five minutes.
-
-    */5 * * * * /home/me/src/PumpTweet/PumpTweet.sh > /dev/null
+If you find that you write many notes and they're being skipped, you can change the code in `PumpTweet.py` and post more than three at a time.  But don't raise the value too high, or you might hit the Twitter rate limit, start looking spammy to your Twitter followers, or both.  A better approach might be a more frequent cron job.
 
 Testing
 =======
@@ -203,7 +203,6 @@ For the (very short) command line help documentation, use this command.
 
     (PumpTweet) $ python PumpTweet.py --help
 
-
 GNU Social
 ==========
 
@@ -212,7 +211,6 @@ GNU social (http://gnu.io/social/) has a Twitter-like API, and you can use this 
 > It was quite easy: just add the parameter `base_url='https://your.gnu.social/api'` to the call to `twitter.API()` in `twitter_login` in `PumpLogin.py`. I guess you could have that as a configurable parameter.
 >
 > Next problem was to get the OAuth token from GNU Social, I used the `get_access_token.py` script, but you have to add `?oauth_callback=oob` to the `REQUEST_TOKEN_URL`, and of course replace the Twitter API URLs with the one for GNU social.
-
 
 Thanks
 ======

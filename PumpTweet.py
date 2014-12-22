@@ -5,6 +5,7 @@ from pypump import PyPump
 from MLStripper import strip_tags
 from shorturl import shorten
 from unicodedata import normalize
+from pypump.models.collection import Public
 import argparse
 
 # Connect to servers.
@@ -18,6 +19,14 @@ def connect_to_servers():
 	__pump_me__ = __ptp__.get_pump_me()
 	__pump_username__ = __ptp__.get_pump_username()
 	__twitter_api__ = __ptp__.get_twitter_api()
+
+# Returns true if the activity is public.
+def ispublic(activity):
+	for recipient in (activity.to + activity.cc):
+		if recipient.id == Public.ENDPOINT:
+			return True
+	
+	return False
 
 # Returns recent outbox activities.
 # If testing, don't stop at recent activity.
@@ -50,6 +59,9 @@ def get_new_activities(testing=False):
 		# Only post several notes. Others are forgotten.
 		if len(notes) >= allowable_posts: break
 
+		# Only post public notes.
+		if not ispublic (activity): break
+
 		obj = activity.obj
 
 		# Only post notes to Twitter.
@@ -60,7 +72,6 @@ def get_new_activities(testing=False):
 
 		# Omit posts written by others and then shared.
 		note_author = obj.author.id[len('acct:'):]
-
 		if note_author != __pump_username__: break
 
 		notes.append(obj)

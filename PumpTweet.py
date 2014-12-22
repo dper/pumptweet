@@ -22,7 +22,11 @@ def connect_to_servers():
 
 # Returns true if the activity is public.
 def ispublic(activity):
-	for recipient in (activity.to + activity.cc):
+	recipients = []
+	if 'to' in activity.__dict__.keys(): recipients += activity.to
+	if 'cc' in activity.__dict__.keys(): recipients += activity.cc
+
+	for recipient in recipients:
 		if recipient.id == Public.ENDPOINT:
 			return True
 	

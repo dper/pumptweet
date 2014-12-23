@@ -1,0 +1,5 @@
+include AUTHORS.md
+include LICENSE
+include README.md
+include logo.png
+include PumpTweet.ini.empty

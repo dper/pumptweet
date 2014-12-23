@@ -4,7 +4,7 @@
 from setuptools import setup
 
 setup(name='pumptweet',
-	version='1.4.6',
+	version='1.4.8',
 	description='Cross posts from Pump.io to Twitter.',
 	setup_requires=['setuptools-markdown'],
 	long_description_markdown_filename='README.md',
@@ -28,9 +28,9 @@ setup(name='pumptweet',
 	license='MIT',
 	packages=['pumptweet'],
 	install_requires=[
-		'pypump>=0.5',
-		'python-twitter',
-		'BeautifulSoup',
+		'pypump >= 0.5',
+		'python-twitter >= 2.0',
+		'BeautifulSoup >= 3.2.1',
 	],
 	include_package_data=True,
 	scripts=[

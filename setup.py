@@ -34,7 +34,7 @@ setup(name='pumptweet',
 	],
 	include_package_data=True,
 	scripts=[
-		'pumptweet/pt.py',
-		'pumptweet/pt.sh',
+		'pt.py',
+		'pt.sh',
 	],
 	zip_safe=False)

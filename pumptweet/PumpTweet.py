@@ -15,14 +15,10 @@ class PumpTweet(object):
 	# Connect to servers.
 	def connect_to_servers(self):
 		# Run the parser and grab useful values.
-		global __ptp__
-		global __pump_me__
-		global __pump_username__
-		global __twitter_api__
-		__ptp__ = PumpTweetParser()
-		__pump_me__ = __ptp__.get_pump_me()
-		__pump_username__ = __ptp__.get_pump_username()
-		__twitter_api__ = __ptp__.get_twitter_api()
+		self.ptp = PumpTweetParser()
+		self.pump_me = self.ptp.get_pump_me()
+		self.pump_username = self.ptp.get_pump_username()
+		self.twitter_api = self.ptp.get_twitter_api()
 	
 	# Returns true if the activity is public.
 	def ispublic(self, activity):
@@ -42,10 +38,10 @@ class PumpTweet(object):
 		print 'Looking at Pump outbox activity...'
 		
 		# Some of this can be replaced by 'since' if later implemented by PyPump.
-		published = __ptp__.get_published()
-		recent = __ptp__.get_recent()
-		outbox = __pump_me__.outbox
-		history = __ptp__.get_history()
+		published = self.ptp.get_published()
+		recent = self.ptp.get_recent()
+		outbox = self.pump_me.outbox
+		history = self.ptp.get_history()
 	
 		# Users with a lot of non-note activity might raise this.
 		count = 20
@@ -80,8 +76,8 @@ class PumpTweet(object):
 	
 			# Omit posts written by others and then shared.
 			note_author = obj.author.id[len('acct:'):]
-			if note_author != __pump_username__: break
-	
+			if note_author != self.pump_username: break
+
 			notes.append(obj)
 		return notes
 	
@@ -101,7 +97,7 @@ class PumpTweet(object):
 		# Make a short URL pointing to the original note.
 		# Replace the middle of the private note URL to get a usable public link.
 		private_url = note.id
-		short_username = __pump_username__.split('@')[0]
+		short_username = self.pump_username.split('@')[0]
 		public_url = private_url.replace('/api/note/', '/' + short_username + '/note/')
 		short_url = shorten(public_url)
 	
@@ -135,15 +131,15 @@ class PumpTweet(object):
 		print 'Posting to Twitter...'
 		print 'New tweet count: ' + str(len(tweets)) + '.'
 		for tweet in tweets:
-			__twitter_api__.PostUpdate(tweet)
+			self.twitter_api.PostUpdate(tweet)
 	
 	# Updates the ini file with the most recent entry.
 	def update_recent(self):
 		print 'Updating history...'
-		activity = __pump_me__.outbox.major[0]
+		activity = self.pump_me.outbox.major[0]
 		latest = activity.id
 		published = activity.published
-		__ptp__.update_recent(latest, published)
+		self.ptp.update_recent(latest, published)
 	
 	# Pulls from Pump and produces text for some tweets.
 	# Nothing is sent to Twitter. This is for testing.

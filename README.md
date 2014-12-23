@@ -114,7 +114,7 @@ Configuring Pump
 
 The script uses PyPump (<https://pypump.readthedocs.org/en/latest/gettingstarted/qnd.html>) to communicate with pump servers.  These instructions are based on the excellent PyPump documentation.  This assumes you already have a pump account.
 
-    $ cd src/pumptweet
+    $ cd pumptweet
     $ source bin/activate
     (pumptweet)$ python
     
@@ -159,11 +159,15 @@ To get the client validated with Twitter, use your favorite web browser.  This a
 Running the script
 ==================
 
-To run the script, just call it.  If you're missing any dependencies (like the ones documented above), you'll find out about it here.
+To run the script, just call it.  If you're missing any dependencies (like the ones documented above), you'll find out about it here.  If you installed pumptweet from source, run it as follows.
 
-    (pumptweet) $ ./pt.py
+    (pumptweet)$ ./pt.py
 
-If everything is working correctly, output should look like the following.  In this example, there's one new note and therefore one new tweet which is posted to Twitter.
+If you installed it using `pip`, run it as follows.
+
+    (pumptweet)$ ./bin/pt.py
+
+If everything is working, you should see something like the following.  In this example, there's one new note and therefore one new tweet which is posted to Twitter.
 
     Reading the config file...
     Logging into the pump.io server...
@@ -189,20 +193,24 @@ If you run the script a second time, it looks to see if there is anything new si
     Posting to Twitter...
     Updating history...
 
-For convenience, there is a Bash script, `pt.sh` that does `virtualenv` stuff for you.  Call that script from the command line to make sure it works.
+For convenience, there is a Bash script, `pt.sh` that does `virtualenv` stuff for you.  Call that script from the command line to make sure it works.  If you installed from source, run it as follows.
 
-    $ ./src/pumptweet/pt.sh
+    $ cd /home/me/pumptweet && pt.sh
+
+If you installed using `pip`, run it as follows.
+
+    $ cd /home/me/pumptweet && ./bin/pt.sh
 
 Cron and rate limits
 ====================
 
-Suppose you have installed the program in `/home/me/src/pumptweet` and have tested it using `pt.sh` to confirm that all is in working order.  The next thing to do is to make a cron job (using `crontab -e`) like the following.  The following cron job runs every five minutes.
+Suppose you have installed the program in `/home/me/pumptweet` and have tested it using `pt.sh` to confirm that all is in working order.  The next thing to do is to make a cron job (using `crontab -e`) like the following.  The following cron job runs every five minutes.
 
-    */5 * * * * /home/me/src/pumptweet/pt.sh > /dev/null
+    */5 * * * * cd /home/me/pumptweet && ./pt.sh > /dev/null
 
-For most users, there is no worry, but if you tend to write many notes in a short amount of time, cross posting can be somewhat delicate.  Twitter has a rate limit, though I don't know exactly what it is.  This script is rather conservative and only posts up to three tweets at a time.  That means if you have written five pump notes since the last time you called this program, the newest three will become tweets and the oldest two will be entirely ignored.
+For most users, there is no worry, but if you tend to write many notes in a short amount of time, cross posting can be somewhat delicate.  Twitter has a rate limit, though I don't know exactly what it is.  This script posts up to three tweets at a time.  If you have written five notes since the last time you called it, the newest three will become tweets and the oldest two will be forgotten.
 
-If you find that you write many notes and they're being skipped, you can change the code in `PumpTweet.py` and post more than three at a time.  But don't raise the value too high, or you might hit the Twitter rate limit, start looking spammy to your Twitter followers, or both.  A better approach might be a more frequent cron job.
+If you find that you write many notes and they're being skipped, you can change `PumpTweet.py` and post more than three at a time.  But don't raise the value too high, or you might hit the Twitter rate limit, start looking spammy to your Twitter followers, or both.  A better approach might be a more frequent cron job.
 
 Testing
 =======

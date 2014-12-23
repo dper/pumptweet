@@ -1,0 +1,3 @@
+include README.md
+include pumptweet/PumpTweet.ini.empty
+include logo.png

@@ -1,3 +1,6 @@
+include AUTHORS.md
+include LICENSE
 include README.md
-include pumptweet/PumpTweet.ini.empty
 include logo.png
+include pumptweet/PumpTweet.ini.empty
+include pumptweet/PumpTweet.sh

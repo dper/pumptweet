@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 
+import argparse
 from PumpTweet import *
 
 if __name__ == "__main__":
@@ -9,7 +10,7 @@ if __name__ == "__main__":
 	parser = argparse.ArgumentParser(description=description)
 	parser.add_argument('-t', '--test', help=test_help, action='store_true')
 	args = parser.parse_args()
-	pumptweet = PumpTweet()
+	pumptweet = PumpTweet.PumpTweet()
 	
 	if args.test:
 		pumptweet.pull_and_test()

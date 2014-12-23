@@ -8,9 +8,9 @@ Overview
 
 If you aren't familiar with **pump.io** (<http://pump.io/>), take a look at <https://microca.st/>.  Try it out and see what you think!  This script is for people already using a pump.io service (like microca.st, but there are many others, and you can run your own).
 
-On pump.io, there are many different kinds of activities.  Here, we only look for *notes*, which are like regular blog entries.  We find a note, shorten it, make a URL to the original (very useful if it's a long note), and tweet it.  In other words, we're cross-posting from pump.io to Twitter.
+There are many different kinds of activities.  Here, we look for *notes*, which are like regular blog entries.  We find a note, shorten it, make a URL to the original, and tweet it.  In other words, we're cross-posting from pump.io to Twitter.
 
-When you compose a note, you choose the recipients.  This script will cross-post your note if it's `To: Public` or `CC: Public`.  Posts that aren't sent to `Public` are ignored.  Other pump activities (such as comments, likes, dislikes) are excluded.  It's not obvious how they would be of interest to a reader on Twitter.
+When you compose a note, you choose the recipients.  This script will cross-post your note if it's `To: Public` or `CC: Public`.  Posts that aren't sent to `Public` are ignored.  Other pump activities (comments, likes, etc.) are excluded.  It's not obvious how they would be of interest on Twitter.
 
 This program is designed to be run as a cron job on a regular basis.
 
@@ -50,9 +50,6 @@ It is easiest to install from PyPI (<https://pypi.python.org/pypi/pumptweet>).  
     $ cd
     $ mkdir pumptweet
     $ virtualenv pumptweet
-
-Then change to it and install `pumptweet` using `pip`.
-
     $ cd pumptweet
     $ source bin/activate
     (pumptweet)$ pip install pumptweet
@@ -62,22 +59,15 @@ Assuming no errors showed up, you've installed `pumptweet`.  The next step is to
 Source Installation
 ===================
 
-If you want to make custom modifications, it's a good idea to install pumptweet using `git`.  These instructions are based on a Debian install.  Other Linux and Unix distributions should be similar.
-
-First, get the code from GitHub (<https://github.com/dper/pumptweet>).
+If you want to make custom modifications, consider a `git` install.  These instructions are for a Debian system.  Other Linux and Unix distributions should be similar.  First, get the code from GitHub (<https://github.com/dper/pumptweet>) and put it in a `virtualenv`.
 
     $ cd
     $ git clone https://github.com/dper/pumptweet
-
-There are several choices for how to install the software and dependencies.  I recommend installing them locally using `virtualenv`.
-
     $ virtualenv pumptweet
     $ cd pumptweet
     $ source bin/activate
 
-The command prompt should now begin with `(pumptweet)`.
-
-You may also need to install some dependencies like PyPump (<https://github.com/xray7224/PyPump>), python-twitter (<https://github.com/bear/python-twitter>), and BeautifulSoup (<http://www.crummy.com/software/BeautifulSoup/>).
+The command prompt should now begin with `(pumptweet)`.  You may also need to install some dependencies, including PyPump (<https://github.com/xray7224/PyPump>), python-twitter (<https://github.com/bear/python-twitter>), and BeautifulSoup (<http://www.crummy.com/software/BeautifulSoup/>).
 
     (pumptweet)$ pip install pypump
     (pumptweet)$ pip install python-twitter
@@ -86,7 +76,7 @@ You may also need to install some dependencies like PyPump (<https://github.com/
 Configuration
 =============
 
-In order to use the script, you need to create a file called `PumpTweet.ini` that looks something like this.
+In order to use the script, create a file called `PumpTweet.ini` that looks something like this.
 
     [pump]
     username = 
@@ -107,7 +97,7 @@ In order to use the script, you need to create a file called `PumpTweet.ini` tha
 
 All of the values in `[pump]` and `[twitter]` must be filled in, but the two entries in `[history]` can be left blank.  If you fail to fill in the top two sections, you'll get some kind of error when running the script.  For convenience, a file called `PumpTweet.ini.blank` is included.  Copy that file or the above text to `PumpTweet.ini` and fill in the necessary sections.
 
-The `PumpTweet.ini` file should be in the base installation directory.  For example, in the above two sections, I installed pumptweet into `~/pumptweet`.  My configuration file should be located at `~/pumptweet/PumpTweet.ini`.
+Place the `PumpTweet.ini` filein the base installation directory.  For example, I installed pumptweet into `~/pumptweet` earlier in this document.  My configuration file should be located at `~/pumptweet/PumpTweet.ini`.
 
 Configuring Pump
 ================
@@ -117,9 +107,9 @@ The script uses PyPump (<https://pypump.readthedocs.org/en/latest/gettingstarted
     $ cd pumptweet
     $ source bin/activate
     (pumptweet)$ python
-    
+
 From the python prompt, do the following.
-    
+
     from pypump import PyPump, Client
     
     def simple_verifier(url):
@@ -133,7 +123,7 @@ From the python prompt, do the following.
     
     client = Client(webfinger=webfinger, name=name, type=type)
     pump = PyPump(client=client, verifier_callback=simple_verifier)
-    
+
 At this point, you'll get a hyperlink to your pump server.  Paste the link into your browser to open a page where you can sign in and give the application the necessary permissions.  Paste the verifier back into the Python prompt to continue.  Once you're signed in, you need to get the five values needed to automate this step in the future.  These should go in the `[pump]` section of the ini.
 
     >>> key = str(pump.get_registration()[0])
@@ -147,6 +137,7 @@ Configuring Twitter
 ===================
 
 To get the client validated with Twitter, use your favorite web browser.  This assumes you already have a Twitter account.
+
 * Go to <https://dev.twitter.com/>.
 * Sign in using the link in the upper right corner.
 * Hover your mouse over your avatar in the upper right corner. Click on `My applications`.
@@ -193,7 +184,7 @@ If you run the script a second time, it looks to see if there is anything new si
     Posting to Twitter...
     Updating history...
 
-For convenience, there is a Bash script, `pt.sh` that does `virtualenv` stuff for you.  Call that script from the command line to make sure it works.  If you installed from source, run it as follows.
+For convenience, there is a bash script, `pt.sh` that does `virtualenv` stuff for you.  Call that script from the command line to make sure it works.  If you installed from source, run it as follows.
 
     $ cd /home/me/pumptweet && pt.sh
 
@@ -223,7 +214,7 @@ For the (very short) command line help documentation, use this command.
 
     (pumptweet) $ pt.py --help
 
-GNU Social
+GNU social
 ==========
 
 GNU social (http://gnu.io/social/) has a Twitter-like API, and you can use this script, with a few modifications, to cross-post from Pump.io to GNU social.  @sazius (<https://pump.saz.im/sazius/note/jdTJx2pQRGiEDpB5eDlXEg>) has done so, and here is what he says.

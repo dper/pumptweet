@@ -6,17 +6,13 @@ A Python script that cross posts from a Pump.io server to Twitter.
 Overview
 ========
 
-If you aren't familiar with Pump.io (<http://pump.io/>), take a look at <https://microca.st/>.  Try it out and see what you think!  This script is for people already using a pump service (like microca.st, but there are many others, and you can run your own).
+If you aren't familiar with **pump.io** (<http://pump.io/>), take a look at <https://microca.st/>.  Try it out and see what you think!  This script is for people already using a pump.io service (like microca.st, but there are many others, and you can run your own).
 
-On Pump.io, there are many different kinds of activities.  Here, we only look for *notes*, which are essentially regular blog entries.  We find notes from our pump account, shorten them, make a URL to the original note (very useful if it's a long note), and post the short version as a tweet on Twitter.  In other words, we're cross-posting from Pump to Twitter.
+On pump.io, there are many different kinds of activities.  Here, we only look for *notes*, which are like regular blog entries.  We find a note, shorten it, make a URL to the original (very useful if it's a long note), and tweet it.  In other words, we're cross-posting from pump.io to Twitter.
 
-When you compose a note, you choose the recipients.  This script will cross-post your note if it's `To: Public` or `CC: Public`.  Posts that aren't sent to `Public` are ignored.
+When you compose a note, you choose the recipients.  This script will cross-post your note if it's `To: Public` or `CC: Public`.  Posts that aren't sent to `Public` are ignored.  Other pump activities (such as comments, likes, dislikes) are excluded.  It's not obvious how they would be of interest to a reader on Twitter.
 
-Other pump activities (such as comments, likes, dislikes, and following new people) are excluded from this, because it's not obvious at face value what, if anything, among them would be of interest to a reader on Twitter.
-
-This program is designed to be run as a cron job on a regular basis (for example, every five minutes).  The more frequent the cron job, the more up to date your cross posts are.
-
-There are other programs that do similar things (for example, <http://brdcst.it/>).  If you enjoy using them, by all means continue to do so!  On the other hand, if this script fits your needs, wonderful.  If you browse the source code, you'll notice that (a) it's really short, because all the hard work was done by the wonderful people who wrote the dependencies, and (b) it's simple, so you can make changes if you like.
+This program is designed to be run as a cron job on a regular basis.
 
 Example
 =======
@@ -51,6 +47,7 @@ PyPI Installation
 
 It is easiest to install from PyPI (<https://pypi.python.org/pypi/pumptweet>).  This assumes you have already installed `python`.  First, make a `virtualenv`.  The `virtualenv` is nice because it means software you install here won't interfere with anything else on the system.  Also, if you find something is wrong or you're otherwise unhappy, you can delete the `pumptweet` directory.
 
+    $ cd
     $ mkdir pumptweet
     $ virtualenv pumptweet
 
@@ -65,11 +62,11 @@ Assuming no errors showed up, you've installed `pumptweet`.  The next step is to
 Source Installation
 ===================
 
-These instructions are based on a Debian install.  Other Linux and Unix distributions should be similar.
+If you want to make custom modifications, it's a good idea to install pumptweet using `git`.  These instructions are based on a Debian install.  Other Linux and Unix distributions should be similar.
 
 First, get the code from GitHub (<https://github.com/dper/pumptweet>).
 
-    $ cd ~/src
+    $ cd
     $ git clone https://github.com/dper/pumptweet
 
 There are several choices for how to install the software and dependencies.  I recommend installing them locally using `virtualenv`.
@@ -108,7 +105,9 @@ In order to use the script, you need to create a file called `PumpTweet.ini` tha
     recent = 
     published = 
 
-All of the values in `[pump]` and `[twitter]` must be filled in, but the two entries in `[history]` can be left blank.  If you fail to fill in the top two sections, you'll get some kind of error when running the script.  For convenience, a file called `PumpTweet.ini.blank` is included.  You can simply copy that file to `PumpTweet.ini` and fill in the necessary sections.
+All of the values in `[pump]` and `[twitter]` must be filled in, but the two entries in `[history]` can be left blank.  If you fail to fill in the top two sections, you'll get some kind of error when running the script.  For convenience, a file called `PumpTweet.ini.blank` is included.  Copy that file or the above text to `PumpTweet.ini` and fill in the necessary sections.
+
+The `PumpTweet.ini` file should be in the base installation directory.  For example, in the above two sections, I installed pumptweet into `~/pumptweet`.  My configuration file should be located at `~/pumptweet/PumpTweet.ini`.
 
 Configuring Pump
 ================

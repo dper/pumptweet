@@ -160,7 +160,6 @@ class PumpTweet(object):
 		self.update_recent()
 
 
-
 if __name__ == "__main__":
 	description = 'Cross-post from pump to twitter.  Call with no options for normal use.'
 	test_help = 'do a test-run without tweeting'

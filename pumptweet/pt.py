@@ -2,7 +2,7 @@
 # coding=utf-8
 
 import argparse
-from PumpTweet import PumpTweet
+from pumptweet import PumpTweet
 
 if __name__ == "__main__":
 	description = 'Cross-post from pump to twitter.  Call with no options for normal use.'

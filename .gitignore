@@ -1,7 +1,14 @@
-*.pyc
-*.ini
+# Ignore virtualenv files.
 bin/
 include/
 lib/
 local/
 man/
+
+# Ignore packaging files.
+*.pyc
+/dist/
+/*.egg-info
+
+# Ignore user configuration files.
+*.ini

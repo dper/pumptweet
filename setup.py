@@ -32,4 +32,9 @@ setup(name='pumptweet',
 		'python-twitter',
 		'BeautifulSoup',
 	],
+	include_package_data=True,
+	scripts=[
+		'pumptweet/pt.py',
+		'pumptweet/pt.sh',
+	],
 	zip_safe=False)

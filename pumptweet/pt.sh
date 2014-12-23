@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
-cd `dirname $0`
+
+# This must be placed at the base of virtualenv.
+# It must be in the same directory as PumpTweet.ini.
+
 source bin/activate
-pt.py
+`dirname $0`/pt.py
 deactivate

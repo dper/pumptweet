@@ -44,34 +44,47 @@ Example tweet #2. Only the first line of the note is retained.
 Issues
 ======
 
-If you see any issues, obvious but missing features, or problems with the documentation, feel free to open an issue at <https://github.com/dper/PumpTweet/issues> or contact the author at <https://microca.st/dper>.
+If you see any issues, obvious but missing features, or problems with the documentation, feel free to open an issue at <https://github.com/dper/pumptweet/issues> or contact the author at <https://microca.st/dper>.
 
-Installation
-============
+PyPI Installation
+=================
 
-This documents how to install PumpTweet on Debian.  Other Linux distributions should be nearly identical.
+It is easiest to install from PyPI (<https://pypi.python.org/pypi/pumptweet>).  This assumes you have already installed `python`.  First, make a `virtualenv`.  The `virtualenv` is nice because it means software you install here won't interfere with anything else on the system.  Also, if you find something is wrong or you're otherwise unhappy, you can delete the `pumptweet` directory.
 
-This installs the script in `~/src/PumpTweet`.  First, get the code from GitHub (<https://github.com/dper/PumpTweet>).
+    $ mkdir pumptweet
+    $ virtualenv pumptweet
+
+Then change to it and install `pumptweet` using `pip`.
+
+    $ cd pumptweet
+    $ source bin/activate
+    (pumptweet)$ pip install pumptweet
+
+Assuming no errors showed up, you've installed `pumptweet`.  The next step is to configure it.
+
+Source Installation
+===================
+
+These instructions are based on a Debian install.  Other Linux and Unix distributions should be similar.
+
+First, get the code from GitHub (<https://github.com/dper/pumptweet>).
 
     $ cd ~/src
-    $ git clone https://github.com/dper/PumpTweet
+    $ git clone https://github.com/dper/pumptweet
 
-There are several choices for dependencies.  You can install them globally or simply place everything here in a `virtualenv`.  The simplest choice is using `virtualenv`.  It's nice because all the dependencies will be placed inside this one directory, and if you decide things are causing problems, you can just delete the entire directory without affecting anything else.
+There are several choices for how to install the software and dependencies.  I recommend installing them locally using `virtualenv`.
 
-    $ virtualenv PumpTweet
-
-Go into the directory and enable `virtualenv`.
-
-    $ cd PumpTweet
+    $ virtualenv pumptweet
+    $ cd pumptweet
     $ source bin/activate
 
-The command prompt should now begin with `(PumpTweet)`.
+The command prompt should now begin with `(pumptweet)`.
 
 You may also need to install some dependencies like PyPump (<https://github.com/xray7224/PyPump>), python-twitter (<https://github.com/bear/python-twitter>), and BeautifulSoup (<http://www.crummy.com/software/BeautifulSoup/>).
 
-    (PumpTweet)$ pip install pypump
-    (PumpTweet)$ pip install python-twitter
-    (PumpTweet)$ pip install BeautifulSoup
+    (pumptweet)$ pip install pypump
+    (pumptweet)$ pip install python-twitter
+    (pumptweet)$ pip install BeautifulSoup
 
 Configuration
 =============
@@ -102,9 +115,9 @@ Configuring Pump
 
 The script uses PyPump (<https://pypump.readthedocs.org/en/latest/gettingstarted/qnd.html>) to communicate with pump servers.  These instructions are based on the excellent PyPump documentation.  This assumes you already have a pump account.
 
-    $ cd src/PumpTweet
+    $ cd src/pumptweet
     $ source bin/activate
-    (PumpTweet)$ python
+    (pumptweet)$ python
     
 From the python prompt, do the following.
     
@@ -116,7 +129,7 @@ From the python prompt, do the following.
         return raw_input("Verifier: ") # the verifier is a string
         
     webfinger = "id@pump.server"
-    name = "PumpTweet"
+    name = "pumptweet"
     type = "native"
     
     client = Client(webfinger=webfinger, name=name, type=type)
@@ -139,7 +152,7 @@ To get the client validated with Twitter, use your favorite web browser.  This a
 * Sign in using the link in the upper right corner.
 * Hover your mouse over your avatar in the upper right corner. Click on `My applications`.
 * Click `Create a new application`.
-* You need to give it a name (like `PumpTweet314`), a description (like `A cross-posting script from Pump to Twitter.`), and a website (if you make a fork of PumpTweet on GitHub, that would be a nice URL, but anything is OK).  Also check the box agreeing with their terms and answer the CAPTCHA.
+* You need to give it a name (like `pumptweet314`), a description (like `A cross-posting script from Pump to Twitter.`), and a website (if you make a fork of pumptweet on GitHub, that would be a nice URL, but anything is OK).  Also check the box agreeing with their terms and answer the CAPTCHA.
 * Click on the `Settings` tab.  Change `Access` to `Read and Write`.  At the bottom of the screen, click `Update this Twitter application's settings`.
 * Click on the `Details` tab. Near the bottom of the screen click `Create my access token`.
 * Click on the `OAuth tool` tab.  This screen should show you the four values needed in the ini file.  Copy and paste them.  That's all you need to do for `[twitter]`.
@@ -149,7 +162,7 @@ Running the script
 
 To run the script, just call it.  If you're missing any dependencies (like the ones documented above), you'll find out about it here.
 
-    (PumpTweet) $ python PumpTweet.py
+    (pumptweet) $ ./pt.py
 
 If everything is working correctly, output should look like the following.  In this example, there's one new note and therefore one new tweet which is posted to Twitter.
 
@@ -177,16 +190,16 @@ If you run the script a second time, it looks to see if there is anything new si
     Posting to Twitter...
     Updating history...
 
-For convenience, there is a Bash script, `PumpTweet.sh` that does `virtualenv` stuff for you.  Call that script from the command line to make sure it works.
+For convenience, there is a Bash script, `pt.sh` that does `virtualenv` stuff for you.  Call that script from the command line to make sure it works.
 
-    $ ./src/PumpTweet/PumpTweet.sh
+    $ ./src/pumptweet/pt.sh
 
 Cron and rate limits
 ====================
 
-Suppose you have installed the program in `/home/me/src/PumpTweet` and have tested it using `PumpTweet.sh` to confirm that all is in working order.  The next thing to do is to make a cron job (using `crontab -e`) like the following.  The following cron job runs every five minutes.
+Suppose you have installed the program in `/home/me/src/pumptweet` and have tested it using `pt.sh` to confirm that all is in working order.  The next thing to do is to make a cron job (using `crontab -e`) like the following.  The following cron job runs every five minutes.
 
-    */5 * * * * /home/me/src/PumpTweet/PumpTweet.sh > /dev/null
+    */5 * * * * /home/me/src/pumptweet/pt.sh > /dev/null
 
 For most users, there is no worry, but if you tend to write many notes in a short amount of time, cross posting can be somewhat delicate.  Twitter has a rate limit, though I don't know exactly what it is.  This script is rather conservative and only posts up to three tweets at a time.  That means if you have written five pump notes since the last time you called this program, the newest three will become tweets and the oldest two will be entirely ignored.
 
@@ -197,11 +210,11 @@ Testing
 
 If you're trying to modify the script or track down some other error, you might want to do test runs.  In that case, call the script as follows, updating the directories according to where you installed it.
 
-    (PumpTweet) $ python PumpTweet.py --test
+    (pumptweet) $ pt.py --test
 
 For the (very short) command line help documentation, use this command.
 
-    (PumpTweet) $ python PumpTweet.py --help
+    (pumptweet) $ pt.py --help
 
 GNU Social
 ==========

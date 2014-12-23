@@ -8,7 +8,6 @@ from unicodedata import normalize
 from pypump.models.collection import Public
 import argparse
 
-
 class PumpTweet(object):
 	"""Cross-posts from Pump.io to Twitter."""
 

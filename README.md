@@ -7,7 +7,7 @@ A Python script that cross posts from a Pump.io server to Twitter.
 Overview
 ========
 
-If you aren't familiar with **pump.io** (<http://pump.io/>), take a look at <https://microca.st/>.  Try it out and see what you think!  This script is for people already using a pump.io service (like microca.st, but there are many others, and you can run your own).
+If you aren't familiar with [pump.io](http://pump.io/), take a look at <https://microca.st/>.  Try it out and see what you think!  This script is for people already using a pump.io service (like microca.st, but there are many others, and you can run your own).
 
 There are many different kinds of activities.  Here, we look for *notes*, which are like regular blog entries.  We find a note, shorten it, make a URL to the original, and tweet it.  In other words, we're cross-posting from pump.io to Twitter.
 
@@ -53,7 +53,7 @@ If you want to contact the author, here are some ways.  Bug reports and improvem
 PyPI Installation
 =================
 
-It is easiest to install from PyPI (<https://pypi.python.org/pypi/pumptweet>).  This assumes you have already installed `python`.  First, make a `virtualenv`.  The `virtualenv` is nice because it means software you install here won't interfere with anything else on the system.  Also, if you find something is wrong or you're otherwise unhappy, you can delete the `pumptweet` directory.
+It is easiest to install from [PyPI](https://pypi.python.org/pypi/pumptweet).  This assumes you have already installed `python`.  First, make a `virtualenv`.  The `virtualenv` is nice because it means software you install here won't interfere with anything else on the system.  Also, if you find something is wrong or you're otherwise unhappy, you can delete the `pumptweet` directory.
 
     $ cd
     $ mkdir pumptweet
@@ -80,7 +80,7 @@ If you want to make custom modifications, consider a `git` install.  These instr
     $ cd pumptweet
     $ source bin/activate
 
-The command prompt should now begin with `(pumptweet)`.  You may also need to install some dependencies, including PyPump (<https://github.com/xray7224/PyPump>), python-twitter (<https://github.com/bear/python-twitter>), and BeautifulSoup (<http://www.crummy.com/software/BeautifulSoup/>).
+The command prompt should now begin with `(pumptweet)`.  You may also need to install some dependencies, including [PyPump](https://github.com/xray7224/PyPump), [python-twitter](https://github.com/bear/python-twitter), and [BeautifulSoup](http://www.crummy.com/software/BeautifulSoup/).
 
     (pumptweet)$ pip install pypump
     (pumptweet)$ pip install python-twitter
@@ -117,7 +117,7 @@ Place the `PumpTweet.ini` filein the base installation directory.  For example, 
 Configuring Pump
 ================
 
-The script uses PyPump (<https://pypump.readthedocs.org/en/latest/gettingstarted/qnd.html>) to communicate with pump servers.  These instructions are based on the excellent PyPump documentation.  This assumes you already have a pump account.
+The script uses [PyPump](https://pypump.readthedocs.org/en/latest/gettingstarted/qnd.html) to communicate with pump servers.  These instructions are based on the excellent PyPump documentation.  This assumes you already have a pump account.
 
     $ cd pumptweet
     $ source bin/activate
@@ -237,7 +237,7 @@ For the (very short) command line help documentation, use this command.
 GNU social
 ==========
 
-GNU social (http://gnu.io/social/) has a Twitter-like API, and you can use this script, with a few modifications, to cross-post from Pump.io to GNU social.  @sazius (<https://pump.saz.im/sazius/note/jdTJx2pQRGiEDpB5eDlXEg>) has done so, and here is what he says.
+[GNU social](http://gnu.io/social/) has a Twitter-like API, and you can use this script, with a few modifications, to cross-post from Pump.io to GNU social.  [@sazius](https://pump.saz.im/sazius/note/jdTJx2pQRGiEDpB5eDlXEg) has done so, and here is what he says.
 
 > It was quite easy: just add the parameter `base_url='https://your.gnu.social/api'` to the call to `twitter.API()` in `twitter_login` in `PumpLogin.py`. I guess you could have that as a configurable parameter.
 >

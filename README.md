@@ -3,6 +3,7 @@ PumpTweet
 
 A Python script that cross posts from a Pump.io server to Twitter.
 
+
 Overview
 ========
 
@@ -13,6 +14,7 @@ There are many different kinds of activities.  Here, we look for *notes*, which 
 When you compose a note, you choose the recipients.  This script will cross-post your note if it's `To: Public` or `CC: Public`.  Posts that aren't sent to `Public` are ignored.  Other pump activities (comments, likes, etc.) are excluded.  It's not obvious how they would be of interest on Twitter.
 
 This program is designed to be run as a cron job on a regular basis.
+
 
 Example
 =======
@@ -37,10 +39,12 @@ Example tweet #2. Only the first line of the note is retained.
 
     I have a technical question about cooling fans.… http://ur1.ca/fihk8
 
+
 Issues
 ======
 
 If you see any issues, obvious but missing features, or problems with the documentation, feel free to open an issue at <https://github.com/dper/pumptweet/issues> or contact the author at <https://microca.st/dper>.
+
 
 PyPI Installation
 =================
@@ -55,6 +59,7 @@ It is easiest to install from PyPI (<https://pypi.python.org/pypi/pumptweet>).  
     (pumptweet)$ pip install pumptweet
 
 Assuming no errors showed up, you've installed `pumptweet`.  The next step is to configure it.
+
 
 Source Installation
 ===================
@@ -72,6 +77,7 @@ The command prompt should now begin with `(pumptweet)`.  You may also need to in
     (pumptweet)$ pip install pypump
     (pumptweet)$ pip install python-twitter
     (pumptweet)$ pip install BeautifulSoup
+
 
 Configuration
 =============
@@ -98,6 +104,7 @@ In order to use the script, create a file called `PumpTweet.ini` that looks some
 All of the values in `[pump]` and `[twitter]` must be filled in, but the two entries in `[history]` can be left blank.  If you fail to fill in the top two sections, you'll get some kind of error when running the script.  For convenience, a file called `PumpTweet.ini.blank` is included.  Copy that file or the above text to `PumpTweet.ini` and fill in the necessary sections.
 
 Place the `PumpTweet.ini` filein the base installation directory.  For example, I installed pumptweet into `~/pumptweet` earlier in this document.  My configuration file should be located at `~/pumptweet/PumpTweet.ini`.
+
 
 Configuring Pump
 ================
@@ -133,6 +140,7 @@ At this point, you'll get a hyperlink to your pump server.  Paste the link into 
 
 Copy and paste those four values into the ini file.  Your username is just your pump username, which looks like an email address.  This is all you need to do for `[pump]`. 
 
+
 Configuring Twitter
 ===================
 
@@ -146,6 +154,7 @@ To get the client validated with Twitter, use your favorite web browser.  This a
 * Click on the `Settings` tab.  Change `Access` to `Read and Write`.  At the bottom of the screen, click `Update this Twitter application's settings`.
 * Click on the `Details` tab. Near the bottom of the screen click `Create my access token`.
 * Click on the `OAuth tool` tab.  This screen should show you the four values needed in the ini file.  Copy and paste them.  That's all you need to do for `[twitter]`.
+
 
 Running the script
 ==================
@@ -192,6 +201,7 @@ If you installed using `pip`, run it as follows.
 
     $ cd /home/me/pumptweet && ./bin/pt.sh
 
+
 Cron and rate limits
 ====================
 
@@ -202,6 +212,7 @@ Suppose you have installed the program in `/home/me/pumptweet` and have tested i
 For most users, there is no worry, but if you tend to write many notes in a short amount of time, cross posting can be somewhat delicate.  Twitter has a rate limit, though I don't know exactly what it is.  This script posts up to three tweets at a time.  If you have written five notes since the last time you called it, the newest three will become tweets and the oldest two will be forgotten.
 
 If you find that you write many notes and they're being skipped, you can change `PumpTweet.py` and post more than three at a time.  But don't raise the value too high, or you might hit the Twitter rate limit, start looking spammy to your Twitter followers, or both.  A better approach might be a more frequent cron job.
+
 
 Testing
 =======
@@ -214,6 +225,7 @@ For the (very short) command line help documentation, use this command.
 
     (pumptweet) $ pt.py --help
 
+
 GNU social
 ==========
 
@@ -222,6 +234,7 @@ GNU social (http://gnu.io/social/) has a Twitter-like API, and you can use this 
 > It was quite easy: just add the parameter `base_url='https://your.gnu.social/api'` to the call to `twitter.API()` in `twitter_login` in `PumpLogin.py`. I guess you could have that as a configurable parameter.
 >
 > Next problem was to get the OAuth token from GNU Social, I used the `get_access_token.py` script, but you have to add `?oauth_callback=oob` to the `REQUEST_TOKEN_URL`, and of course replace the Twitter API URLs with the one for GNU social.
+
 
 Thanks
 ======

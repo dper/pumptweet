@@ -40,10 +40,14 @@ Example tweet #2. Only the first line of the note is retained.
     I have a technical question about cooling fans.… http://ur1.ca/fihk8
 
 
-Issues
-======
+Contact
+=======
 
-If you see any issues, obvious but missing features, or problems with the documentation, feel free to open an issue at <https://github.com/dper/pumptweet/issues> or contact the author at <https://microca.st/dper>.
+If you want to contact the author, here are some ways.  Bug reports and improvements are always welcome.
+
+* <https://microca.st/dper>
+* <https://twitter.com/dpp0>
+* <https://dperkins.org/tag/contact.html>
 
 
 PyPI Installation
@@ -64,7 +68,11 @@ Assuming no errors showed up, you've installed `pumptweet`.  The next step is to
 Source Installation
 ===================
 
-If you want to make custom modifications, consider a `git` install.  These instructions are for a Debian system.  Other Linux and Unix distributions should be similar.  First, get the code from GitHub (<https://github.com/dper/pumptweet>) and put it in a `virtualenv`.
+* Browse: <https://dperkins.org/git/gitlist/pumptweet.git>.
+* Clone: <https://dperkins.org/git/public/pumptweet.git>.
+* GitHub: <https://github.com/dper/pumptweet.git>.
+
+If you want to make custom modifications, consider a `git` install.  These instructions are for a Debian system.  Other Linux and Unix distributions should be similar.  First, get the source code and put it in a `virtualenv`.
 
     $ cd
     $ git clone https://github.com/dper/pumptweet

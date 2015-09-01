@@ -69,7 +69,7 @@ class PumpTweet(object):
 			obj = activity.obj
 	
 			# Only post notes to Twitter.
-			if obj.objectType != 'note': break
+			if obj.object_type != 'note': break
 	
 			# Skip deleted notes.
 			if obj.deleted: break

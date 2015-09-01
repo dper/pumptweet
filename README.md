@@ -141,10 +141,10 @@ From the python prompt, do the following.
 
 At this point, you'll get a hyperlink to your pump server.  Paste the link into your browser to open a page where you can sign in and give the application the necessary permissions.  Paste the verifier back into the Python prompt to continue.  Once you're signed in, you need to get the five values needed to automate this step in the future.  These should go in the `[pump]` section of the ini.
 
-    >>> key = str(pump.get_registration()[0])
+    >>> key = str(pump.client.key)
     >>> secret = str(pump.get_registration()[1])
-    >>> token = str(pump.get_token()[0])
-    >>> token_secret = str(pump.get_token()[1])
+    >>> token = pump.store["oauth-access-token"]
+    >>> token_secret = pump.store["oauth-access-secret"]
 
 Copy and paste those four values into the ini file.  Your username is just your pump username, which looks like an email address.  This is all you need to do for `[pump]`. 
 

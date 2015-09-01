@@ -24,11 +24,12 @@ class PumpTweet(object):
 		recipients = []
 		recipients += getattr(activity, 'to', [])
 		recipients += getattr(activity, 'cc', [])
+		public_id = Public().id
 	
 		for recipient in recipients:
-			if recipient.id == Public.ENDPOINT:
+			if recipient.id == public_id:
 				return True
-		
+	
 		return False
 	
 	# Returns recent outbox activities.

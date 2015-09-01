@@ -1,7 +1,7 @@
 #!/usr/bin/env python2
 # setup.py
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(name='pumptweet',
 	version='1.6.1',

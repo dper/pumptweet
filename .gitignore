@@ -8,6 +8,8 @@ man/
 # Ignore packaging files.
 *.pyc
 /dist/
+/build/
+/.eggs/
 /*.egg-info
 
 # Ignore user configuration files.

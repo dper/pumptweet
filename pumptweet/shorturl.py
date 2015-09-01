@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 #
 #   shorturl.py
 #   Shorts a long URL from command line, using ur1.ca.

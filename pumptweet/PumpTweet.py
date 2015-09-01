@@ -52,7 +52,7 @@ class PumpTweet(object):
 		notes = []
 	
 		for activity in outbox.major[:count]:
-			print '> ' + activity.obj.objectType + ' (' + str(activity.published) + ')'
+			print '> ' + activity.obj.object_type + ' (' + str(activity.published) + ')'
 	
 			# Stop looking at the outbox upon finding old activity.
 			if history and not testing:

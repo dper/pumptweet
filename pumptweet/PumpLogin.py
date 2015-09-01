@@ -57,9 +57,10 @@ class PumpTweetParser:
 
 		pump = PyPump(
 			client = client,
-			token = token,
-			secret = token_secret,
 			verifier_callback = simple_verifier)
+
+		pump.store["oauth-access-token"] = token
+		pump.store["oauth-access-secret"] = token_secret
 
 		me = pump.Person(username)
 		

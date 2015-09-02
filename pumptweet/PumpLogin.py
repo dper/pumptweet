@@ -16,7 +16,6 @@ class PumpTweetParser:
 	# This file must exist in the current directory.
 	filename = 'PumpTweet.ini'
 
-
 	# Parses the ini file.
 	def parse_ini(self):
 		print 'Reading the config file...'

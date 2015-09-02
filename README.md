@@ -119,7 +119,7 @@ The first thing you need to do is put your username (which looks like an email a
 
     $ cd pumptweet
     $ source bin/activate
-	(pumptweet)$ ./pt.py
+    (pumptweet)$ ./pt.py
 
 At this point, you'll get a hyperlink to your pump server. Paste the link into your browser to open a page where you can sign in and give the application the necessary permissions. Paste the verifier back into the prompt to continue. This is all you need to do for `[pump]`.
 
@@ -220,4 +220,4 @@ GNU social
 Thanks
 ======
 
-The `pump.io` community at large has helped advertise this project.  Thanks to `diocles` for some bug reports and patches.  The code for filtering out non-public posts came from `sazius`, as did information on posting to GNU social.
+The `pump.io` community at large has helped advertise this project.  Thanks to everyone there for support.  See `AUTHORS.md` for a list of those wonderful individuals who contributed code.  

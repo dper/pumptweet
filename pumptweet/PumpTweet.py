@@ -3,7 +3,6 @@
 from PumpLogin import PumpTweetParser
 from pypump import PyPump
 from MLStripper import strip_tags
-from shorturl import shorten
 from unicodedata import normalize
 from pypump.models.collection import Public
 import argparse
@@ -99,17 +98,18 @@ class PumpTweet(object):
 		private_url = note.id
 		short_username = self.pump_username.split('@')[0]
 		public_url = private_url.replace('/api/note/', '/' + short_username + '/note/')
-		short_url = shorten(public_url)
 	
 		# Make room for the ellipsis and URL at the end of the tweet.
-		cropped_length = max_length - len(short_url) - 2
+		# Note that all links on Twitter are shortened via t.co. Therefore, all links
+		# are 22 or 23 characters, depending on whether they use HTTP or HTTPS.
+		cropped_length = max_length - 23 - 2
 	
 		# Keep only the first line.
 		content = content.splitlines()[0]
 		content = content[:cropped_length]
 		content = content.rstrip()
 	
-		tweet = content + u'… ' + short_url
+		tweet = content + u'… ' + public_url
 		return tweet
 	
 	# Converts posts to tweets.

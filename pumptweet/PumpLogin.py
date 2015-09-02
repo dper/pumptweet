@@ -43,24 +43,15 @@ class PumpTweetParser:
 		print 'Logging into the Pump server...'
 
 		username = self._parser.get('pump', 'username')
-		key = self._parser.get('pump', 'key')
-		secret = self._parser.get('pump', 'secret')
-		token = self._parser.get('pump', 'token')
-		token_secret = self._parser.get('pump', 'token_secret')
 
 		client = Client(
 			webfinger = username,
 			name = "Pump.io",
-			type = "native",
-			key = key,
-			secret = secret)
+			type = "native")
 
 		pump = PyPump(
 			client = client,
 			verifier_callback = simple_verifier)
-
-		pump.store["oauth-access-token"] = token
-		pump.store["oauth-access-secret"] = token_secret
 
 		me = pump.Person(username)
 		

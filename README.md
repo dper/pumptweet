@@ -94,10 +94,6 @@ In order to use the script, create a file called `PumpTweet.ini` that looks some
 
     [pump]
     username = 
-    key = 
-    secret = 
-    token = 
-    token_secret = 
     
     [twitter]
     key = 
@@ -117,36 +113,15 @@ Place the `PumpTweet.ini` filein the base installation directory.  For example, 
 Configuring Pump
 ================
 
-The script uses [PyPump](https://pypump.readthedocs.org/en/latest/gettingstarted/qnd.html) to communicate with pump servers.  These instructions are based on the excellent PyPump documentation.  This assumes you already have a pump account.
+The script uses [PyPump](https://pypump.readthedocs.org/en/latest/gettingstarted/qnd.html) to communicate with pump servers. This assumes you already have a pump account.
+
+The first thing you need to do is put your username (which looks like an email address) into the `[pump]` section of the ini file. Next, run:
 
     $ cd pumptweet
     $ source bin/activate
-    (pumptweet)$ python
+	(pumptweet)$ ./pt.py
 
-From the python prompt, do the following.
-
-    from pypump import PyPump, Client
-    
-    def simple_verifier(url):
-        print 'Please follow the instructions at the following URL:'
-        print url
-        return raw_input("Verifier: ") # the verifier is a string
-        
-    webfinger = "id@pump.server"
-    name = "pumptweet"
-    type = "native"
-    
-    client = Client(webfinger=webfinger, name=name, type=type)
-    pump = PyPump(client=client, verifier_callback=simple_verifier)
-
-At this point, you'll get a hyperlink to your pump server.  Paste the link into your browser to open a page where you can sign in and give the application the necessary permissions.  Paste the verifier back into the Python prompt to continue.  Once you're signed in, you need to get the five values needed to automate this step in the future.  These should go in the `[pump]` section of the ini.
-
-    >>> key = str(pump.client.key)
-    >>> secret = str(pump.get_registration()[1])
-    >>> token = pump.store["oauth-access-token"]
-    >>> token_secret = pump.store["oauth-access-secret"]
-
-Copy and paste those four values into the ini file.  Your username is just your pump username, which looks like an email address.  This is all you need to do for `[pump]`. 
+At this point, you'll get a hyperlink to your pump server. Paste the link into your browser to open a page where you can sign in and give the application the necessary permissions. Paste the verifier back into the prompt to continue. This is all you need to do for `[pump]`.
 
 
 Configuring Twitter

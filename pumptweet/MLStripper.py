@@ -39,6 +39,12 @@ def replace_entities(html):
 # Strips tags from HTML, returning regular text.
 def strip_tags(html):
 	html = replace_entities(html)
+
+	# Converts HTML characters back to unicode.
+	# This keeps them from being stripped later.
+	parser = HTMLParser()
+	html = parser.unescape(html)
+
 	s = MLStripper()
 	s.feed(html)
 	return s.get_data()

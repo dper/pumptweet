@@ -63,19 +63,19 @@ class PumpTweet(object):
 			if len(notes) >= allowable_posts: break
 	
 			# Only post public notes.
-			if not self.ispublic (activity): break
+			if not self.ispublic (activity): continue
 	
 			obj = activity.obj
 	
 			# Only post notes to Twitter.
-			if obj.object_type != 'note': break
+			if obj.object_type != 'note': continue
 	
 			# Skip deleted notes.
-			if obj.deleted: break
+			if obj.deleted: continue
 	
 			# Omit posts written by others and then shared.
 			note_author = obj.author.id[len('acct:'):]
-			if note_author != self.pump_username: break
+			if note_author != self.pump_username: continue
 
 			notes.append(obj)
 		return notes

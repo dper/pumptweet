@@ -59,7 +59,7 @@ class PumpTweet(object):
 			return recent == activity.id or published >= activity.published
 
 		# Returns true if the activity is something we should cross-post.
-		def crosspostable(activity):
+		def is_crosspostable(activity):
 			obj = activity.obj
 			note_author = obj.author.id[len('acct:'):]
 
@@ -78,7 +78,7 @@ class PumpTweet(object):
 			if len(notes) >= allowable_posts: break
 
 			# Only the right kind of activities are cross-posted.
-			if crosspostable(activity):
+			if is_crosspostable(activity):
 				notes.append(activity.obj)
 
 		return notes

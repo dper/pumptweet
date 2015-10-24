@@ -1,9 +1,11 @@
+import os.path
+import sys
+import twitter
 from pypump import PyPump
 from pypump import Client
 from dateutil.parser import parse
 from ConfigParser import SafeConfigParser
-import twitter
-import os.path
+from requests.exceptions import ConnectionError
 
 def simple_verifier(url):
 	print 'Please follow the instructions at the following URL:'
@@ -48,9 +50,14 @@ class PumpTweetParser:
 			name = "Pump.io",
 			type = "native")
 
-		pump = PyPump(
-			client = client,
-			verifier_callback = simple_verifier)
+		try:
+			pump = PyPump(
+				client = client,
+				verifier_callback = simple_verifier)
+		except ConnectionError, e:
+			print 'Error: Unable to connect to server for ' + username + '.'
+			print e
+			sys.exit()
 
 		me = pump.Person(username)
 		

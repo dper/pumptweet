@@ -19,7 +19,7 @@ class PumpTweet(object):
 		self.twitter_api = self.ptp.get_twitter_api()
 	
 	# Returns true if the activity is public.
-	def ispublic(self, activity):
+	def is_public(self, activity):
 		recipients = []
 		recipients += getattr(activity, 'to', [])
 		recipients += getattr(activity, 'cc', [])
@@ -51,33 +51,36 @@ class PumpTweet(object):
 		allowable_posts = 3
 		notes = []
 	
+		# Returns true if the script has already run since the activity happened.
+		def is_old(activity):
+			# If there's no logged history, activities are new.
+			if not history: return False
+
+			return recent == activity.id or published >= activity.published
+
+		# Returns true if the activity is something we should cross-post.
+		def crosspostable(activity):
+			obj = activity.obj
+			note_author = obj.author.id[len('acct:'):]
+
+			return self.is_public(activity) and \
+				obj.object_type == 'note' and \
+				not obj.deleted and \
+				note_author == self.pump_username
+
 		for activity in outbox.major[:count]:
 			print '> ' + activity.obj.object_type + ' (' + str(activity.published) + ')'
-	
+
 			# Stop looking at the outbox upon finding old activity.
-			if history and not testing:
-				if recent == activity.id: break
-				if published >= activity.published: break
+			if is_old(activity) and not testing: break
 	
 			# Only post several notes. Others are forgotten.
 			if len(notes) >= allowable_posts: break
-	
-			# Only post public notes.
-			if not self.ispublic (activity): continue
-	
-			obj = activity.obj
-	
-			# Only post notes to Twitter.
-			if obj.object_type != 'note': continue
-	
-			# Skip deleted notes.
-			if obj.deleted: continue
-	
-			# Omit posts written by others and then shared.
-			note_author = obj.author.id[len('acct:'):]
-			if note_author != self.pump_username: continue
 
-			notes.append(obj)
+			# Only the right kind of activities are cross-posted.
+			if crosspostable(activity):
+				notes.append(activity.obj)
+
 		return notes
 	
 	# Make the text for a tweet that includes the contest of the note.

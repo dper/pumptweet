@@ -1,10 +1,11 @@
 import os.path
 import sys
 import twitter
-from pypump import PyPump
-from pypump import Client
 from dateutil.parser import parse
 from ConfigParser import SafeConfigParser
+from pypump import PyPump
+from pypump import Client
+from pypump.client import ClientException
 from requests.exceptions import ConnectionError
 
 def simple_verifier(url):
@@ -55,8 +56,13 @@ class PumpTweetParser:
 				client = client,
 				verifier_callback = simple_verifier)
 		except ConnectionError, e:
-			print 'Error: Unable to connect to server for ' + username + '.'
+			domain = username.split('@')[1]	
+			print 'Error: Unable to connect to ' + domain + '.'
 			print e
+			sys.exit()
+		except ClientException:
+			domain = username.split('@')[1]	
+			print 'Error: Pump server not found at ' + domain + '.'
 			sys.exit()
 
 		me = pump.Person(username)

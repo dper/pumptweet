@@ -5,6 +5,7 @@ from pypump import PyPump
 from MLStripper import strip_tags
 from unicodedata import normalize
 from pypump.models.collection import Public
+from twitter import TwitterError
 import argparse
 
 class PumpTweet(object):
@@ -111,8 +112,8 @@ class PumpTweet(object):
 		content = content.splitlines()[0]
 		content = content[:cropped_length]
 		content = content.rstrip()
-	
-		tweet = content + u'… ' + public_url
+
+		tweet = content + u'… ' + public_url	
 		return tweet
 	
 	# Converts posts to tweets.
@@ -128,13 +129,23 @@ class PumpTweet(object):
 		for tweet in tweets:
 			normal = normalize('NFKD', tweet).encode('ascii', 'ignore')
 			print '> ' + normal
-	
+
 	# Posts a list of tweets.
 	def post_tweets(self, tweets):
 		print 'Posting to Twitter...'
 		print 'New tweet count: ' + str(len(tweets)) + '.'
 		for tweet in tweets:
-			self.twitter_api.PostUpdate(tweet)
+			try:
+				self.twitter_api.PostUpdate(tweet)
+			except TwitterError as e:
+				print "---------------------------------"
+				print "Error: Unable to post to Twitter."
+				print "Tweet length prior to Twitter URL shortening: " + str(len(tweet)) + "."
+				print "Tweet:"
+				print tweet
+				print "---------------------------------"
+
+				raise
 	
 	# Updates the ini file with the most recent entry.
 	def update_recent(self):

@@ -130,26 +130,30 @@ class PumpTweet(object):
 			normal = normalize('NFKD', tweet).encode('ascii', 'ignore')
 			print '> ' + normal
 
+	# Posts a tweet.
+	def post_tweet(self, tweet):
+		try:
+			self.twitter_api.PostUpdate(tweet)
+		except TwitterError as e:
+			print e[0][0]
+
+			# The error code for over-length Tweets is 186.
+			if e[0][0]['code'] == 186:
+				print "---------------------------------"
+				print "Error: Tweet too long."
+				print "Tweet length prior to shortening: " + str(len(tweet)) + "."
+				print "Tweet:"
+				print tweet
+				print "---------------------------------"
+
+			raise
+
 	# Posts a list of tweets.
 	def post_tweets(self, tweets):
 		print 'Posting to Twitter...'
 		print 'New tweet count: ' + str(len(tweets)) + '.'
 		for tweet in tweets:
-			try:
-				self.twitter_api.PostUpdate(tweet)
-			except TwitterError as e:
-				print e[0][0]
-
-				# The error code for over-length Tweets is 186.
-				if e[0][0]['code'] == 186:
-					print "---------------------------------"
-					print "Error: Tweet too long."
-					print "Tweet length prior to shortening: " + str(len(tweet)) + "."
-					print "Tweet:"
-					print tweet
-					print "---------------------------------"
-
-				raise
+			self.post_tweet(tweet)
 	
 	# Updates the ini file with the most recent entry.
 	def update_recent(self):

@@ -138,12 +138,16 @@ class PumpTweet(object):
 			try:
 				self.twitter_api.PostUpdate(tweet)
 			except TwitterError as e:
-				print "---------------------------------"
-				print "Error: Unable to post to Twitter."
-				print "Tweet length prior to Twitter URL shortening: " + str(len(tweet)) + "."
-				print "Tweet:"
-				print tweet
-				print "---------------------------------"
+				print e[0][0]
+
+				# The error code for over-length Tweets is 186.
+				if e[0][0]['code'] == 186:
+					print "---------------------------------"
+					print "Error: Tweet too long."
+					print "Tweet length prior to shortening: " + str(len(tweet)) + "."
+					print "Tweet:"
+					print tweet
+					print "---------------------------------"
 
 				raise
 	

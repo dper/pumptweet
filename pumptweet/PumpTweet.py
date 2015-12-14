@@ -146,8 +146,8 @@ class PumpTweet(object):
 				print "Tweet:"
 				print tweet
 				print "---------------------------------"
-			else:
-				raise
+
+			raise
 
 	# Posts a list of tweets.
 	def post_tweets(self, tweets):

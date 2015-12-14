@@ -137,6 +137,7 @@ class PumpTweet(object):
 		except TwitterError as e:
 			print e[0][0]
 
+			# In some cases, Twitter's URL shortener makes a Tweet longer.
 			# The error code for over-length Tweets is 186.
 			if e[0][0]['code'] == 186:
 				print "---------------------------------"
@@ -145,8 +146,8 @@ class PumpTweet(object):
 				print "Tweet:"
 				print tweet
 				print "---------------------------------"
-
-			raise
+			else:
+				raise
 
 	# Posts a list of tweets.
 	def post_tweets(self, tweets):

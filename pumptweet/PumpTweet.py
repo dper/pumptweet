@@ -143,7 +143,6 @@ class PumpTweet(object):
 			# In some cases, Twitter's URL shortener makes a Tweet longer.
 			# The error code for over-length Tweets is 186.
 			if e[0][0]['code'] == 186:
-				print "---------------------------------"
 				print "Error: Tweet too long."
 				print "Tweet length prior to shortening: " + str(len(tweet)) + "."
 				print "Tweet:"

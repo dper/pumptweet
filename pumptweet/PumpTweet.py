@@ -135,7 +135,10 @@ class PumpTweet(object):
 		try:
 			self.twitter_api.PostUpdate(tweet)
 		except TwitterError as e:
+			print "---------------------------------"
+			print "Twitter error."
 			print e[0][0]
+			print "---------------------------------"
 
 			# In some cases, Twitter's URL shortener makes a Tweet longer.
 			# The error code for over-length Tweets is 186.
@@ -147,7 +150,8 @@ class PumpTweet(object):
 				print tweet
 				print "---------------------------------"
 
-			raise
+			if self.halt_on_error:
+				raise
 
 	# Posts a list of tweets.
 	def post_tweets(self, tweets):
@@ -174,7 +178,11 @@ class PumpTweet(object):
 		self.print_tweets(tweets)
 	
 	# Pulls from Pump and pushes to Twitter.
-	def pull_and_push(self):
+	#
+	# The parameter halt_on_error affects error handling.
+	# By default, we show the error message but continue on.
+	def pull_and_push(self, halt_on_error=False):
+		self.halt_on_error = halt_on_error
 		self.connect_to_servers()
 		notes = self.get_new_activities()
 		tweets = self.make_tweets(notes)

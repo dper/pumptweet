@@ -195,6 +195,12 @@ For most users, there is no worry, but if you tend to write many notes in a shor
 If you find that you write many notes and they're being skipped, you can change `PumpTweet.py` and post more than three at a time.  But don't raise the value too high, or you might hit the Twitter rate limit, start looking spammy to your Twitter followers, or both.  A better approach might be a more frequent cron job.
 
 
+Errors
+======
+
+Identifying errors can be difficult.  If the Pump or Twitter servers are completely offline, you will get an obvious error message, but if they're partly offline, you might not.  Similarly, if your login is incorrect, you might see confusing error messages.  If you're not sure what's going wrong, you are encouraged to open an issue, contact the developers, or post a message to the Pump network.
+
+
 Testing
 =======
 

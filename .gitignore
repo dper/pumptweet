@@ -4,6 +4,8 @@ include/
 lib/
 local/
 man/
+share/
+pip-selfcheck.json
 
 # Ignore packaging files.
 *.pyc

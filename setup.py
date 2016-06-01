@@ -29,7 +29,7 @@ setup(name='pumptweet',
 	packages=['pumptweet'],
 	install_requires=[
 		'pypump >= 0.6',
-		'python-twitter >= 2.2',
+		'python-twitter >= 3.1',
 		'BeautifulSoup >= 3.2.1',
 	],
 	include_package_data=True,

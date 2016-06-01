@@ -35,7 +35,7 @@ class PumpTweet(object):
 	# Returns recent outbox activities.
 	# If testing, don't stop at recent activity.
 	def get_new_activities(self, testing=False):
-		print 'Looking at Pump outbox activity...'
+		print('Looking at Pump outbox activity...')
 		
 		# Some of this can be replaced by 'since' if later implemented by PyPump.
 		published = self.ptp.get_published()
@@ -70,7 +70,7 @@ class PumpTweet(object):
 				note_author == self.pump_username
 
 		for activity in outbox.major[:count]:
-			print '> ' + activity.obj.object_type + ' (' + str(activity.published) + ')'
+			print('> ' + activity.obj.object_type + ' (' + str(activity.published) + ')')
 
 			# Stop looking at the outbox upon finding old activity.
 			if is_old(activity) and not testing: break
@@ -125,43 +125,43 @@ class PumpTweet(object):
 	
 	# Prints a list of tweets.
 	def print_tweets(self, tweets):
-		print 'Printing tweets...'
+		print('Printing tweets...')
 		for tweet in tweets:
 			normal = normalize('NFKD', tweet).encode('ascii', 'ignore')
-			print '> ' + normal
+			print('> ' + normal)
 
 	# Posts a tweet.
 	def post_tweet(self, tweet):
 		try:
 			self.twitter_api.PostUpdate(tweet)
 		except TwitterError as e:
-			print "---------------------------------"
-			print "Twitter error."
-			print e[0][0]
-			print "---------------------------------"
+			print('---------------------------------')
+			print('Twitter error.')
+			print(e[0][0])
+			print('---------------------------------')
 
 			# In some cases, Twitter's URL shortener makes a Tweet longer.
 			# The error code for over-length Tweets is 186.
 			if e[0][0]['code'] == 186:
-				print "Error: Tweet too long."
-				print "Tweet length prior to shortening: " + str(len(tweet)) + "."
-				print "Tweet:"
-				print tweet
-				print "---------------------------------"
+				print('Error: Tweet too long.')
+				print('Tweet length prior to shortening: ' + str(len(tweet)) + '.')
+				print('Tweet:')
+				print(tweet)
+				print('---------------------------------')
 
 			if self.halt_on_error:
 				raise
 
 	# Posts a list of tweets.
 	def post_tweets(self, tweets):
-		print 'Posting to Twitter...'
-		print 'New tweet count: ' + str(len(tweets)) + '.'
+		print('Posting to Twitter...')
+		print('New tweet count: ' + str(len(tweets)) + '.')
 		for tweet in tweets:
 			self.post_tweet(tweet)
 	
 	# Updates the ini file with the most recent entry.
 	def update_recent(self):
-		print 'Updating history...'
+		print('Updating history...')
 		activity = self.pump_me.outbox.major[0]
 		latest = activity.id
 		published = activity.published
@@ -170,7 +170,7 @@ class PumpTweet(object):
 	# Pulls from Pump and produces text for some tweets.
 	# Nothing is sent to Twitter. This is for testing.
 	def pull_and_test(self):
-		print 'Testing PumpTweet...'
+		print('Testing PumpTweet...')
 		self.connect_to_servers()
 		notes = self.get_new_activities(testing=True)
 		tweets = self.make_tweets(notes)

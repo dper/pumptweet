@@ -9,8 +9,8 @@ from pypump.client import ClientException
 from requests.exceptions import ConnectionError
 
 def simple_verifier(url):
-	print 'Please follow the instructions at the following URL:'
-	print url
+	print('Please follow the instructions at the following URL:')
+	print(url)
 	return raw_input("Verifier: ") # the verifier is a string
 
 class PumpTweetParser:
@@ -21,7 +21,7 @@ class PumpTweetParser:
 
 	# Parses the ini file.
 	def parse_ini(self):
-		print 'Reading the config file...'
+		print('Reading the config file...')
 
 		# This verifies that the ini file exists.
 		if not os.path.isfile(self.filename):
@@ -42,7 +42,7 @@ class PumpTweetParser:
 
 	# Logs in to the Pump server.
 	def pump_login(self):
-		print 'Logging into the Pump server...'
+		print('Logging into the Pump server...')
 
 		username = self._parser.get('pump', 'username')
 
@@ -57,12 +57,12 @@ class PumpTweetParser:
 				verifier_callback = simple_verifier)
 		except ConnectionError, e:
 			domain = username.split('@')[1]	
-			print 'Error: Unable to connect to ' + domain + '.'
-			print e
+			print('Error: Unable to connect to ' + domain + '.')
+			print(e)
 			sys.exit()
 		except ClientException:
 			domain = username.split('@')[1]	
-			print 'Error: Pump server not found at ' + domain + '.'
+			print('Error: Pump server not found at ' + domain + '.')
 			sys.exit()
 
 		me = pump.Person(username)
@@ -73,7 +73,7 @@ class PumpTweetParser:
 
 	# Logs in to Twitter.
 	def twitter_login(self):
-		print 'Logging into Twitter...'
+		print('Logging into Twitter...')
 		key = self._parser.get('twitter', 'key')
 		secret = self._parser.get('twitter', 'secret')
 		token = self._parser.get('twitter', 'token')

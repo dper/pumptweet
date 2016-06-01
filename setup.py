@@ -4,7 +4,7 @@
 from setuptools import setup, find_packages
 
 setup(name='pumptweet',
-	version='1.6.1',
+	version='2.0.0',
 	description='Cross posts from Pump.io to Twitter.',
 	setup_requires=['setuptools-markdown'],
 	long_description_markdown_filename='README.md',
@@ -18,8 +18,7 @@ setup(name='pumptweet',
 		'Operating System :: MacOS :: MacOS X',
 		'Operating System :: Microsoft :: Windows',
 		'Operating System :: POSIX',
-		'Programming Language :: Python :: 2',
-		'Programming Language :: Python :: 2.7',
+		'Programming Language :: Python :: 3',
 		'Topic :: Communications',
 	],
 	url='http://github.com/dper/pumptweet',

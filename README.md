@@ -53,7 +53,9 @@ If you want to contact the author, here are some ways.  Bug reports and improvem
 PyPI Installation
 =================
 
-It is easiest to install from [PyPI](https://pypi.python.org/pypi/pumptweet).  This assumes you have already installed `python`.  First, make a `virtualenv`.  The `virtualenv` is nice because it means software you install here won't interfere with anything else on the system.  Also, if you find something is wrong or you're otherwise unhappy, you can delete the `pumptweet` directory.
+To start with, you need Python.  Python 3.5 has been tested and works.  Python 3.4 might work.  Older versions probably don't.
+
+It is easiest to install from [PyPI](https://pypi.python.org/pypi/pumptweet).  First, make a `virtualenv`.  The `virtualenv` is nice because it means software you install here won't interfere with anything else on the system.  Also, if you find something is wrong or you're otherwise unhappy, you can delete the `pumptweet` directory.
 
     $ cd
     $ mkdir pumptweet
@@ -80,11 +82,10 @@ If you want to make custom modifications, consider a `git` install.  These instr
     $ cd pumptweet
     $ source bin/activate
 
-The command prompt should now begin with `(pumptweet)`.  You may also need to install some dependencies, including [PyPump](https://github.com/xray7224/PyPump), [python-twitter](https://github.com/bear/python-twitter), and [BeautifulSoup](http://www.crummy.com/software/BeautifulSoup/).
+The command prompt should now begin with `(pumptweet)`.  You may also need to install some dependencies, including [PyPump](https://github.com/xray7224/PyPump) and [python-twitter](https://github.com/bear/python-twitter).
 
     (pumptweet)$ pip3 install pypump
     (pumptweet)$ pip3 install python-twitter
-    (pumptweet)$ pip3 install BeautifulSoup
 
 
 Configuration

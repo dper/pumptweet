@@ -82,9 +82,9 @@ If you want to make custom modifications, consider a `git` install.  These instr
 
 The command prompt should now begin with `(pumptweet)`.  You may also need to install some dependencies, including [PyPump](https://github.com/xray7224/PyPump), [python-twitter](https://github.com/bear/python-twitter), and [BeautifulSoup](http://www.crummy.com/software/BeautifulSoup/).
 
-    (pumptweet)$ pip install pypump
-    (pumptweet)$ pip install python-twitter
-    (pumptweet)$ pip install BeautifulSoup
+    (pumptweet)$ pip3 install pypump
+    (pumptweet)$ pip3 install python-twitter
+    (pumptweet)$ pip3 install BeautifulSoup
 
 
 Configuration

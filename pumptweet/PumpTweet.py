@@ -1,8 +1,8 @@
 # coding=utf-8
 
-from PumpLogin import PumpTweetParser
+from .PumpLogin import PumpTweetParser
 from pypump import PyPump
-from MLStripper import strip_tags
+from .MLStripper import strip_tags
 from unicodedata import normalize
 from pypump.models.collection import Public
 from twitter import TwitterError
@@ -128,7 +128,7 @@ class PumpTweet(object):
 		print('Printing tweets...')
 		for tweet in tweets:
 			normal = normalize('NFKD', tweet).encode('ascii', 'ignore')
-			print('> ' + normal)
+			print('> ' + normal.decode('ascii'))
 
 	# Posts a tweet.
 	def post_tweet(self, tweet):

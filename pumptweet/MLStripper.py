@@ -1,11 +1,12 @@
 # coding=utf-8
 
-from HTMLParser import HTMLParser
+from html.parser import HTMLParser
 
 # Class for stripping HTML from text.
 class MLStripper(HTMLParser):
 
 	def __init__(self):
+		super().__init__()
 		self.reset()
 		self.fed = []
 
@@ -48,3 +49,4 @@ def strip_tags(html):
 	s = MLStripper()
 	s.feed(html)
 	return s.get_data()
+	#return s.read(html)

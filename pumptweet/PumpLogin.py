@@ -2,7 +2,7 @@ import os.path
 import sys
 import twitter
 from dateutil.parser import parse
-from ConfigParser import SafeConfigParser
+from configparser import ConfigParser
 from pypump import PyPump
 from pypump import Client
 from pypump.client import ClientException
@@ -28,7 +28,7 @@ class PumpTweetParser:
 			message = self.filename + ' not found.'
 			raise Exception(message)
 
-		parser = SafeConfigParser()
+		parser = ConfigParser()
 		parser.read(self.filename)
 		self._parser = parser
 		self._recent = parser.get('history', 'recent')
@@ -55,7 +55,7 @@ class PumpTweetParser:
 			pump = PyPump(
 				client = client,
 				verifier_callback = simple_verifier)
-		except ConnectionError, e:
+		except ConnectionError as e:
 			domain = username.split('@')[1]	
 			print('Error: Unable to connect to ' + domain + '.')
 			print(e)
@@ -95,10 +95,10 @@ class PumpTweetParser:
 	# Writes the latest update Pump ID in the ini file.
 	# Be careful when changing this.  It rewrites the ini file.
 	def update_recent(self, latest, published):
-		self._parser.set('history', 'recent', latest)
+		self._parser.set('history', 'recent', str(latest))
 		self._parser.set('history', 'published', str(published))
 
-		with open(self.filename, 'wb') as inifile:
+		with open(self.filename, 'w') as inifile:
 			self._parser.write(inifile)
 
 	# Returns the ID for the last update (from the ini file).

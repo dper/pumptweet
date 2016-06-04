@@ -133,21 +133,12 @@ class PumpTweet(object):
 	# Posts a tweet.
 	def post_tweet(self, tweet):
 		try:
-			self.twitter_api.PostUpdate(tweet)
+			self.twitter_api.PostUpdates(tweet)
 		except TwitterError as e:
 			print('---------------------------------')
 			print('Twitter error.')
-			print(e[0][0])
+			print(e)
 			print('---------------------------------')
-
-			# In some cases, Twitter's URL shortener makes a Tweet longer.
-			# The error code for over-length Tweets is 186.
-			if e[0][0]['code'] == 186:
-				print('Error: Tweet too long.')
-				print('Tweet length prior to shortening: ' + str(len(tweet)) + '.')
-				print('Tweet:')
-				print(tweet)
-				print('---------------------------------')
 
 			if self.halt_on_error:
 				raise

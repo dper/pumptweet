@@ -14,6 +14,14 @@ class MLStripper(HTMLParser):
 	def handle_data(self, d):
 		self.fed.append(d)
 
+	def handle_starttag(self, tag, attrs):
+		if tag == 'br':
+			self.fed.append("\n")
+
+	def handle_endtag(self, tag):
+		if tag == 'p':
+			self.fed.append("\n")
+
 	def get_data(self):
 		return ''.join(self.fed)
 

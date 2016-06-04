@@ -7,7 +7,7 @@ import html
 class MLStripper(HTMLParser):
 
 	def __init__(self):
-		super().__init__()
+		super().__init__(convert_charrefs=True)
 		self.reset()
 		self.fed = []
 

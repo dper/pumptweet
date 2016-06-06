@@ -38,8 +38,6 @@ class PumpTweet(object):
 		print('Looking at Pump outbox activity...')
 		
 		# Some of this can be replaced by 'since' if later implemented by PyPump.
-		published = self.ptp.get_published()
-		recent = self.ptp.get_recent()
 		outbox = self.pump_me.outbox
 		history = self.ptp.get_history()
 	
@@ -57,6 +55,8 @@ class PumpTweet(object):
 			# If there's no logged history, activities are new.
 			if not history: return False
 
+			published = self.ptp.get_published()
+			recent = self.ptp.get_recent()
 			return recent == activity.id or published >= activity.published
 
 		# Returns true if the activity is something we should cross-post.

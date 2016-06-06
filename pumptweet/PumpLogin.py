@@ -31,14 +31,20 @@ class PumpTweetParser:
 		parser = ConfigParser()
 		parser.read(self.filename)
 		self._parser = parser
-		self._recent = parser.get('history', 'recent')
+		self._history = True
+
+		#self._recent = parser.get('history', 'recent')
+		if 'recent' in parser['history']:
+			self._recent = parser['history']['recent']
+		else:
+			self._history = False
 
 		# Converts the date to a usable form.
-		date = parser.get('history', 'published')
-		self._published = parse(date)
-
-		# Notes whether history exists in the ini file.
-		self._history = len(date) > 0 and len(self._recent) > 0
+		if 'published' in parser['history']:
+			date = parser['history']['published']
+			self._published = parse(date)
+		else:
+			self._history = False
 
 	# Logs in to the Pump server.
 	def pump_login(self):

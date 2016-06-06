@@ -131,7 +131,7 @@ Configuring Twitter
 To get the client validated with Twitter, use your favorite web browser.  This assumes you already have a Twitter account.
 
 * Go to <https://apps.twitter.com/> and sign in.
-* Click `Create a new application`.
+* Click `Create new app`.
 * You need to give it a name (like `pumptweet314`), a description (like `A cross-posting script from Pump to Twitter.`), and a website (if you make a fork of pumptweet on GitHub, that would be a nice URL, but anything is OK).  Also check the box agreeing with their terms and answer the CAPTCHA.
 * Click on the `Settings` tab.  Change `Access` to `Read and Write`.  At the bottom of the screen, click `Update this Twitter application's settings`.
 * Click on the `Details` tab. Near the bottom of the screen click `Create my access token`.

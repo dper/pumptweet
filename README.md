@@ -53,7 +53,7 @@ If you want to contact the author, here are some ways.  Bug reports and improvem
 PyPI Installation
 =================
 
-To start with, you need Python.  Python 3.5 has been tested and works.  Python 3.4 might work.  Older versions probably don't.
+To start with, you need Python.  Python 3.4 and 3.5 have been tested and work.  Older versions probably don't.
 
 It is easiest to install from [PyPI](https://pypi.python.org/pypi/pumptweet).  First, make a `virtualenv`.  The `virtualenv` is nice because it means software you install here won't interfere with anything else on the system.  Also, if you find something is wrong or you're otherwise unhappy, you can delete the `pumptweet` directory.
 

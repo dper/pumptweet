@@ -41,8 +41,13 @@ class PumpTweetParser:
 
 		# Converts the date to a usable form.
 		if 'published' in parser['history']:
+			print("HERE!")
 			date = parser['history']['published']
-			self._published = parse(date)
+
+			try:
+				self._published = parse(date)
+			except ValueError:
+				pass
 		else:
 			self._history = False
 

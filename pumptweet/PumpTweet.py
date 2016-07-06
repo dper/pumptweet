@@ -48,7 +48,7 @@ class PumpTweet(object):
 		# Posting too frequently might lead to errors on Twitter.
 		# If this number is too small, consider a more frequent cronjob.
 		allowable_posts = 3
-		notes = []
+		posts = []
 	
 		# Returns true if the script has already run since the activity happened.
 		def is_old(activity):
@@ -70,9 +70,7 @@ class PumpTweet(object):
 			if note_author != self.pump_username: return false
 
 			return obj_type == 'note'
-
-			# Use this for cross-posting images.
-			# return obj_type == 'note' or obj_type == 'image'
+			#return obj_type == 'note' or obj_type == 'image'
 
 		for activity in outbox.major[:count]:
 			print('> ' + activity.obj.object_type + ' (' + str(activity.published) + ')')
@@ -81,22 +79,22 @@ class PumpTweet(object):
 			if is_old(activity) and not self.testing: break
 	
 			# Only post several notes. Others are forgotten.
-			if len(notes) >= allowable_posts: break
+			if len(posts) >= allowable_posts: break
 
 			# Only the right kind of activities are cross-posted.
 			if is_crosspostable(activity):
-				notes.append(activity.obj)
+				posts.append(activity.obj)
 
-		return notes
+		return posts
 	
 	# Prints a list of tweets.
 	def print_tweet(self, tweet):
-		print('---')
+		print('---------------------------------')
 		normal = normalize('NFKD', tweet).encode('ascii', 'ignore')
 		print('> ' + normal.decode('ascii'))
 	
-	# Make the text for a tweet that includes the contest of the note.
-	def make_tweet(self, note):
+	# Make the text for a tweet that includes the content of the note.
+	def make_text(self, note):
 		max_length = 136
 		content = note.content
 	
@@ -127,15 +125,36 @@ class PumpTweet(object):
 		tweet = content + u'… ' + public_url	
 		return tweet
 
-	# Posts a tweet.
-	def post_tweet(self, note):
-		tweet = self.make_tweet(note)
-		self.print_tweet(tweet)
+	# Posts a note.
+	def post_note(self, post):
+		text = self.make_text(post)
+		self.print_tweet(text)
 
 		if self.testing: return
 
 		try:
-			self.twitter_api.PostUpdates(tweet)
+			self.twitter_api.PostUpdates(text)
+		except TwitterError as e:
+			print('---------------------------------')
+			print('Twitter error.')
+			print(e)
+			print('---------------------------------')
+
+			if self.halt_on_error:
+				raise
+
+	# Posts an image.
+	def post_image(self, post):
+		text = self.make_text(post)
+		self.print_tweet(text)
+
+		# The URL of the image itself (i.e., a jpg or png).
+		#url = 
+
+		if self.testing: return
+
+		try:
+			self.twitter_api.PostUpdate(text, media=url)
 		except TwitterError as e:
 			print('---------------------------------')
 			print('Twitter error.')
@@ -146,11 +165,16 @@ class PumpTweet(object):
 				raise
 
 	# Makes and posts tweets.
-	def post_tweets(self, notes):
-		print('New tweet count: ' + str(len(notes)) + '.')
+	def post_all(self, posts):
+		print('New tweet count: ' + str(len(posts)) + '.')
 
-		for note in notes:
-			self.post_tweet(note)
+		for post in posts:
+			obj_type = post.object_type
+
+			if obj_type == 'note':
+				self.post_note(post)
+			elif obj_type == 'image':
+				self.post_image(post)
 
 	# Updates the ini file with the most recent entry.
 	def update_recent(self):
@@ -166,8 +190,8 @@ class PumpTweet(object):
 		print('Testing PumpTweet...')
 		self.testing = True
 		self.connect_to_servers()
-		notes = self.get_new_activities()
-		self.post_tweets(notes)
+		posts = self.get_new_activities()
+		self.post_all(posts)
 	
 	# Pulls from Pump and pushes to Twitter.
 	#
@@ -177,6 +201,6 @@ class PumpTweet(object):
 		self.testing = False
 		self.halt_on_error = halt_on_error
 		self.connect_to_servers()
-		notes = self.get_new_activities()
-		self.post_tweets(notes)
+		posts = self.get_new_activities()
+		self.post_all(posts)
 		self.update_recent()

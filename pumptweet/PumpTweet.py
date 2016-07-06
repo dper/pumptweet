@@ -122,8 +122,8 @@ class PumpTweet(object):
 		content = content[:cropped_length]
 		content = content.rstrip()
 
-		tweet = content + u'… ' + public_url	
-		return tweet
+		text = content + u'… ' + public_url	
+		return text
 
 	# Posts a note.
 	def post_note(self, post):

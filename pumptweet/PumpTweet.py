@@ -69,8 +69,7 @@ class PumpTweet(object):
 			if obj.deleted: return false
 			if note_author != self.pump_username: return false
 
-			return obj_type == 'note'
-			#return obj_type == 'note' or obj_type == 'image'
+			return obj_type == 'note' or obj_type == 'image'
 
 		for activity in outbox.major[:count]:
 			print('> ' + activity.obj.object_type + ' (' + str(activity.published) + ')')
@@ -89,7 +88,7 @@ class PumpTweet(object):
 	
 	# Prints a list of tweets.
 	def print_tweet(self, tweet):
-		print('---------------------------------')
+		print("---------------------------------\n")
 		normal = normalize('NFKD', tweet).encode('ascii', 'ignore')
 		print('> ' + normal.decode('ascii'))
 	
@@ -148,13 +147,19 @@ class PumpTweet(object):
 		text = self.make_text(post)
 		self.print_tweet(text)
 
-		# The URL of the image itself (i.e., a jpg or png).
-		#url = 
+		# Start with the URL of the thumbnail.
+		# Modify it to get the original image URL.
+		thumb_url = post.thumbnail.url
+		base = thumb_url.rsplit('/',1)[0]
+		image = thumb_url.rsplit('/',1)[1]
+		image = image.replace('_thumb', '')
+		url = base + '/' + image
 
 		if self.testing: return
 
 		try:
-			self.twitter_api.PostUpdates(text, media=url)
+			self.twitter_api.PostMedia(text, url)
+			#self.twitter_api.PostUpdates(text, media=url)
 		except TwitterError as e:
 			print('---------------------------------')
 			print('Twitter error.')

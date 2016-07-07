@@ -158,8 +158,7 @@ class PumpTweet(object):
 		if self.testing: return
 
 		try:
-			self.twitter_api.PostMedia(text, url)
-			#self.twitter_api.PostUpdates(text, media=url)
+			self.twitter_api.PostUpdate(text, media=url)
 		except TwitterError as e:
 			print('---------------------------------')
 			print('Twitter error.')

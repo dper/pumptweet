@@ -65,9 +65,9 @@ class PumpTweet(object):
 			obj_type = obj.object_type
 			note_author = obj.author.id[len('acct:'):]
 
-			if not self.is_public(activity): return false
-			if obj.deleted: return false
-			if note_author != self.pump_username: return false
+			if not self.is_public(activity): return False
+			if obj.deleted: return False
+			if note_author != self.pump_username: return False
 
 			return obj_type == 'note' or obj_type == 'image'
 
@@ -146,14 +146,7 @@ class PumpTweet(object):
 	def post_image(self, post):
 		text = self.make_text(post)
 		self.print_tweet(text)
-
-		# Start with the URL of the thumbnail.
-		# Modify it to get the original image URL.
-		thumb_url = post.thumbnail.url
-		base = thumb_url.rsplit('/',1)[0]
-		image = thumb_url.rsplit('/',1)[1]
-		image = image.replace('_thumb', '')
-		url = base + '/' + image
+		url = post.original.url
 
 		if self.testing: return
 

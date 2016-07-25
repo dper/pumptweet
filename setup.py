@@ -4,7 +4,7 @@
 from setuptools import setup, find_packages
 
 setup(name='pumptweet',
-	version='2.0.0',
+	version='2.1',
 	description='Cross posts from Pump.io to Twitter.',
 	setup_requires=['setuptools-markdown'],
 	long_description_markdown_filename='README.md',

@@ -5,7 +5,7 @@ from dateutil.parser import parse
 from configparser import ConfigParser
 from pypump import PyPump
 from pypump import Client
-from pypump.client import ClientException
+from pypump.exceptions import ClientException
 from requests.exceptions import ConnectionError
 
 def simple_verifier(url):

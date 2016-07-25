@@ -27,7 +27,7 @@ setup(name='pumptweet',
 	license='MIT',
 	packages=['pumptweet'],
 	install_requires=[
-		'pypump >= 0.6',
+		'pypump >= 0.7',
 		'python-twitter >= 3.1',
 	],
 	include_package_data=True,

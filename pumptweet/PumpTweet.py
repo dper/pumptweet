@@ -146,14 +146,7 @@ class PumpTweet(object):
 	def post_image(self, post):
 		text = self.make_text(post)
 		self.print_tweet(text)
-
-		# Start with the URL of the thumbnail.
-		# Modify it to get the original image URL.
-		thumb_url = post.thumbnail.url
-		base = thumb_url.rsplit('/',1)[0]
-		image = thumb_url.rsplit('/',1)[1]
-		image = image.replace('_thumb', '')
-		url = base + '/' + image
+		url = post.original.url
 
 		if self.testing: return
 

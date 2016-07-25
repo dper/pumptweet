@@ -65,9 +65,9 @@ class PumpTweet(object):
 			obj_type = obj.object_type
 			note_author = obj.author.id[len('acct:'):]
 
-			if not self.is_public(activity): return false
-			if obj.deleted: return false
-			if note_author != self.pump_username: return false
+			if not self.is_public(activity): return False
+			if obj.deleted: return False
+			if note_author != self.pump_username: return False
 
 			return obj_type == 'note' or obj_type == 'image'
 

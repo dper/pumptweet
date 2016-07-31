@@ -62,7 +62,11 @@ It is easiest to install from [PyPI](https://pypi.python.org/pypi/pumptweet).  F
     $ virtualenv pumptweet
     $ cd pumptweet
     $ source bin/activate
-    (pumptweet)$ pip install pumptweet
+    (pumptweet)$ pip3 install pumptweet
+
+If both Python 2 and Python 3 are installed on your system, you might need to specify the Python version for `virtualenv`.  Look at the output and make sure it's using Python 3.
+
+    $ virtualenv -p /usr/bin/python3
 
 Assuming no errors showed up, you've installed `pumptweet`.  The next step is to configure it.
 

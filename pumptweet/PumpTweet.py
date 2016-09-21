@@ -1,11 +1,11 @@
 # coding=utf-8
 
-from PumpLogin import PumpTweetParser
+from .PumpLogin import PumpTweetParser
 from pypump import PyPump
-from MLStripper import strip_tags
-from shorturl import shorten
+from .MLStripper import strip_tags
 from unicodedata import normalize
 from pypump.models.collection import Public
+from twitter import TwitterError
 import argparse
 
 class PumpTweet(object):
@@ -20,25 +20,24 @@ class PumpTweet(object):
 		self.twitter_api = self.ptp.get_twitter_api()
 	
 	# Returns true if the activity is public.
-	def ispublic(self, activity):
+	def is_public(self, activity):
 		recipients = []
 		recipients += getattr(activity, 'to', [])
 		recipients += getattr(activity, 'cc', [])
+		public_id = Public().id
 	
 		for recipient in recipients:
-			if recipient.id == Public.ENDPOINT:
+			if recipient.id == public_id:
 				return True
-		
+	
 		return False
 	
 	# Returns recent outbox activities.
 	# If testing, don't stop at recent activity.
-	def get_new_activities(self, testing=False):
-		print 'Looking at Pump outbox activity...'
+	def get_new_activities(self):
+		print('Looking at Pump outbox activity...')
 		
 		# Some of this can be replaced by 'since' if later implemented by PyPump.
-		published = self.ptp.get_published()
-		recent = self.ptp.get_recent()
 		outbox = self.pump_me.outbox
 		history = self.ptp.get_history()
 	
@@ -49,39 +48,52 @@ class PumpTweet(object):
 		# Posting too frequently might lead to errors on Twitter.
 		# If this number is too small, consider a more frequent cronjob.
 		allowable_posts = 3
-		notes = []
+		posts = []
 	
+		# Returns true if the script has already run since the activity happened.
+		def is_old(activity):
+			# If there's no logged history, activities are new.
+			if not history: return False
+
+			published = self.ptp.get_published()
+			recent = self.ptp.get_recent()
+			return recent == activity.id or published >= activity.published
+
+		# Returns true if the activity is something we should cross-post.
+		def is_crosspostable(activity):
+			obj = activity.obj
+			obj_type = obj.object_type
+			note_author = obj.author.id[len('acct:'):]
+
+			if not self.is_public(activity): return False
+			if obj.deleted: return False
+			if note_author != self.pump_username: return False
+
+			return obj_type == 'note' or obj_type == 'image'
+
 		for activity in outbox.major[:count]:
-			print '> ' + activity.obj.objectType + ' (' + str(activity.published) + ')'
-	
+			print('> ' + activity.obj.object_type + ' (' + str(activity.published) + ')')
+
 			# Stop looking at the outbox upon finding old activity.
-			if history and not testing:
-				if recent == activity.id: break
-				if published >= activity.published: break
+			if is_old(activity) and not self.testing: break
 	
 			# Only post several notes. Others are forgotten.
-			if len(notes) >= allowable_posts: break
-	
-			# Only post public notes.
-			if not self.ispublic (activity): break
-	
-			obj = activity.obj
-	
-			# Only post notes to Twitter.
-			if obj.objectType != 'note': break
-	
-			# Skip deleted notes.
-			if obj.deleted: break
-	
-			# Omit posts written by others and then shared.
-			note_author = obj.author.id[len('acct:'):]
-			if note_author != self.pump_username: break
+			if len(posts) >= allowable_posts: break
 
-			notes.append(obj)
-		return notes
+			# Only the right kind of activities are cross-posted.
+			if is_crosspostable(activity):
+				posts.append(activity.obj)
+
+		return posts
 	
-	# Make the text for a tweet that includes the contest of the note.
-	def make_tweet(self, note):
+	# Prints a list of tweets.
+	def print_tweet(self, tweet):
+		print("---------------------------------\n")
+		normal = normalize('NFKD', tweet).encode('ascii', 'ignore')
+		print('> ' + normal.decode('ascii'))
+	
+	# Make the text for a tweet that includes the content of the note.
+	def make_text(self, note):
 		max_length = 136
 		content = note.content
 	
@@ -98,43 +110,72 @@ class PumpTweet(object):
 		private_url = note.id
 		short_username = self.pump_username.split('@')[0]
 		public_url = private_url.replace('/api/note/', '/' + short_username + '/note/')
-		short_url = shorten(public_url)
 	
 		# Make room for the ellipsis and URL at the end of the tweet.
-		cropped_length = max_length - len(short_url) - 2
+		# Note that all links on Twitter are shortened via t.co. Therefore, all links
+		# are 22 or 23 characters, depending on whether they use HTTP or HTTPS.
+		cropped_length = max_length - 23 - 2
 	
 		# Keep only the first line.
 		content = content.splitlines()[0]
 		content = content[:cropped_length]
 		content = content.rstrip()
-	
-		tweet = content + u'… ' + short_url
-		return tweet
-	
-	# Converts posts to tweets.
-	def make_tweets(self, notes):
-		tweets = []
-		for note in notes:
-			tweets.append(self.make_tweet(note))
-		return tweets
-	
-	# Prints a list of tweets.
-	def print_tweets(self, tweets):
-		print 'Printing tweets...'
-		for tweet in tweets:
-			normal = normalize('NFKD', tweet).encode('ascii', 'ignore')
-			print '> ' + normal
-	
-	# Posts a list of tweets.
-	def post_tweets(self, tweets):
-		print 'Posting to Twitter...'
-		print 'New tweet count: ' + str(len(tweets)) + '.'
-		for tweet in tweets:
-			self.twitter_api.PostUpdate(tweet)
-	
+
+		text = content + u'… ' + public_url	
+		return text
+
+	# Posts a note.
+	def post_note(self, post):
+		text = self.make_text(post)
+		self.print_tweet(text)
+
+		if self.testing: return
+
+		try:
+			self.twitter_api.PostUpdates(text)
+		except TwitterError as e:
+			print('---------------------------------')
+			print('Twitter error.')
+			print(e)
+			print('---------------------------------')
+
+			if self.halt_on_error:
+				raise
+
+	# Posts an image.
+	def post_image(self, post):
+		text = self.make_text(post)
+		self.print_tweet(text)
+		url = post.original.url
+
+		if self.testing: return
+
+		try:
+			self.twitter_api.PostUpdate(text, media=url)
+		except TwitterError as e:
+			print('---------------------------------')
+			print('Twitter error.')
+			print(e)
+			print('---------------------------------')
+
+			if self.halt_on_error:
+				raise
+
+	# Makes and posts tweets.
+	def post_all(self, posts):
+		print('New tweet count: ' + str(len(posts)) + '.')
+
+		for post in posts:
+			obj_type = post.object_type
+
+			if obj_type == 'note':
+				self.post_note(post)
+			elif obj_type == 'image':
+				self.post_image(post)
+
 	# Updates the ini file with the most recent entry.
 	def update_recent(self):
-		print 'Updating history...'
+		print('Updating history...')
 		activity = self.pump_me.outbox.major[0]
 		latest = activity.id
 		published = activity.published
@@ -143,17 +184,20 @@ class PumpTweet(object):
 	# Pulls from Pump and produces text for some tweets.
 	# Nothing is sent to Twitter. This is for testing.
 	def pull_and_test(self):
-		print 'Testing PumpTweet...'
+		print('Testing PumpTweet...')
+		self.testing = True
 		self.connect_to_servers()
-		notes = self.get_new_activities(testing=True)
-		tweets = self.make_tweets(notes)
-		self.print_tweets(tweets)
+		posts = self.get_new_activities()
+		self.post_all(posts)
 	
 	# Pulls from Pump and pushes to Twitter.
-	def pull_and_push(self):
+	#
+	# The parameter halt_on_error affects error handling.
+	# By default, we show the error message but continue on.
+	def pull_and_push(self, halt_on_error=False):
+		self.testing = False
+		self.halt_on_error = halt_on_error
 		self.connect_to_servers()
-		notes = self.get_new_activities()
-		tweets = self.make_tweets(notes)
-		self.print_tweets(tweets)
-		self.post_tweets(tweets)
+		posts = self.get_new_activities()
+		self.post_all(posts)
 		self.update_recent()

@@ -1,16 +1,26 @@
 # coding=utf-8
 
-from HTMLParser import HTMLParser
+from html.parser import HTMLParser
+import html
 
 # Class for stripping HTML from text.
 class MLStripper(HTMLParser):
 
 	def __init__(self):
+		super().__init__(convert_charrefs=True)
 		self.reset()
 		self.fed = []
 
 	def handle_data(self, d):
 		self.fed.append(d)
+
+	def handle_starttag(self, tag, attrs):
+		if tag == 'br':
+			self.fed.append("\n")
+
+	def handle_endtag(self, tag):
+		if tag == 'p':
+			self.fed.append("\n")
 
 	def get_data(self):
 		return ''.join(self.fed)
@@ -37,8 +47,15 @@ def replace_entities(html):
 	return html
 
 # Strips tags from HTML, returning regular text.
-def strip_tags(html):
-	html = replace_entities(html)
+def strip_tags(text):
+	text = replace_entities(text)
+
+	# Converts HTML characters back to unicode.
+	# This keeps them from being stripped later.
+	text = html.unescape(text)
+
 	s = MLStripper()
-	s.feed(html)
+	s.feed(text)
+	s.close()
+
 	return s.get_data()

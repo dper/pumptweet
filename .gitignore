@@ -4,11 +4,18 @@ include/
 lib/
 local/
 man/
+share/
+pip-selfcheck.json
 
 # Ignore packaging files.
 *.pyc
 /dist/
+/build/
+/.eggs/
 /*.egg-info
 
 # Ignore user configuration files.
 *.ini
+
+# Ignore temporary files.
+*.swp

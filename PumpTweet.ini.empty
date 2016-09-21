@@ -1,9 +1,5 @@
 [pump]
 username = 
-key = 
-secret = 
-token = 
-token_secret = 
 
 [twitter]
 key = 

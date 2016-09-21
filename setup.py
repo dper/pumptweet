@@ -1,10 +1,10 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 # setup.py
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(name='pumptweet',
-	version='1.4.8',
+	version='2.1',
 	description='Cross posts from Pump.io to Twitter.',
 	setup_requires=['setuptools-markdown'],
 	long_description_markdown_filename='README.md',
@@ -18,8 +18,7 @@ setup(name='pumptweet',
 		'Operating System :: MacOS :: MacOS X',
 		'Operating System :: Microsoft :: Windows',
 		'Operating System :: POSIX',
-		'Programming Language :: Python :: 2',
-		'Programming Language :: Python :: 2.7',
+		'Programming Language :: Python :: 3',
 		'Topic :: Communications',
 	],
 	url='http://github.com/dper/pumptweet',
@@ -28,9 +27,8 @@ setup(name='pumptweet',
 	license='MIT',
 	packages=['pumptweet'],
 	install_requires=[
-		'pypump >= 0.5',
-		'python-twitter >= 2.0',
-		'BeautifulSoup >= 3.2.1',
+		'pypump >= 0.7',
+		'python-twitter >= 3.1',
 	],
 	include_package_data=True,
 	scripts=[

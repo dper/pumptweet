@@ -1,13 +1,16 @@
+import os.path
+import sys
+import twitter
+from dateutil.parser import parse
+from configparser import ConfigParser
 from pypump import PyPump
 from pypump import Client
-from dateutil.parser import parse
-from ConfigParser import SafeConfigParser
-import twitter
-import os.path
+from pypump.exceptions import ClientException
+from requests.exceptions import ConnectionError
 
 def simple_verifier(url):
-	print 'Please follow the instructions at the following URL:'
-	print url
+	print('Please follow the instructions at the following URL:')
+	print(url)
 	return raw_input("Verifier: ") # the verifier is a string
 
 class PumpTweetParser:
@@ -16,50 +19,61 @@ class PumpTweetParser:
 	# This file must exist in the current directory.
 	filename = 'PumpTweet.ini'
 
-
 	# Parses the ini file.
 	def parse_ini(self):
-		print 'Reading the config file...'
+		print('Reading the config file...')
 
 		# This verifies that the ini file exists.
 		if not os.path.isfile(self.filename):
 			message = self.filename + ' not found.'
 			raise Exception(message)
 
-		parser = SafeConfigParser()
+		parser = ConfigParser()
 		parser.read(self.filename)
 		self._parser = parser
-		self._recent = parser.get('history', 'recent')
+		self._history = True
+
+		#self._recent = parser.get('history', 'recent')
+		if 'recent' in parser['history']:
+			self._recent = parser['history']['recent']
+		else:
+			self._history = False
 
 		# Converts the date to a usable form.
-		date = parser.get('history', 'published')
-		self._published = parse(date)
+		if 'published' in parser['history']:
+			date = parser['history']['published']
 
-		# Notes whether history exists in the ini file.
-		self._history = len(date) > 0 and len(self._recent) > 0
+			try:
+				self._published = parse(date)
+			except ValueError:
+				pass
+		else:
+			self._history = False
 
 	# Logs in to the Pump server.
 	def pump_login(self):
-		print 'Logging into the Pump server...'
+		print('Logging into the Pump server...')
 
 		username = self._parser.get('pump', 'username')
-		key = self._parser.get('pump', 'key')
-		secret = self._parser.get('pump', 'secret')
-		token = self._parser.get('pump', 'token')
-		token_secret = self._parser.get('pump', 'token_secret')
 
 		client = Client(
 			webfinger = username,
 			name = "Pump.io",
-			type = "native",
-			key = key,
-			secret = secret)
+			type = "native")
 
-		pump = PyPump(
-			client = client,
-			token = token,
-			secret = token_secret,
-			verifier_callback = simple_verifier)
+		try:
+			pump = PyPump(
+				client = client,
+				verifier_callback = simple_verifier)
+		except ConnectionError as e:
+			domain = username.split('@')[1]	
+			print('Error: Unable to connect to ' + domain + '.')
+			print(e)
+			sys.exit()
+		except ClientException:
+			domain = username.split('@')[1]	
+			print('Error: Pump server not found at ' + domain + '.')
+			sys.exit()
 
 		me = pump.Person(username)
 		
@@ -69,7 +83,7 @@ class PumpTweetParser:
 
 	# Logs in to Twitter.
 	def twitter_login(self):
-		print 'Logging into Twitter...'
+		print('Logging into Twitter...')
 		key = self._parser.get('twitter', 'key')
 		secret = self._parser.get('twitter', 'secret')
 		token = self._parser.get('twitter', 'token')
@@ -91,10 +105,10 @@ class PumpTweetParser:
 	# Writes the latest update Pump ID in the ini file.
 	# Be careful when changing this.  It rewrites the ini file.
 	def update_recent(self, latest, published):
-		self._parser.set('history', 'recent', latest)
+		self._parser.set('history', 'recent', str(latest))
 		self._parser.set('history', 'published', str(published))
 
-		with open(self.filename, 'wb') as inifile:
+		with open(self.filename, 'w') as inifile:
 			self._parser.write(inifile)
 
 	# Returns the ID for the last update (from the ini file).

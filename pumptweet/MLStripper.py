@@ -56,4 +56,6 @@ def strip_tags(text):
 
 	s = MLStripper()
 	s.feed(text)
+	s.close()
+
 	return s.get_data()

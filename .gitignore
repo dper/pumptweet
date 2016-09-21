@@ -16,3 +16,6 @@ pip-selfcheck.json
 
 # Ignore user configuration files.
 *.ini
+
+# Ignore temporary files.
+*.swp
